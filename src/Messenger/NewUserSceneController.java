@@ -14,7 +14,7 @@ import javafx.fxml.Initializable;
  *
  * @author Justin
  */
-public class NewUserUIController implements Initializable {
+public class NewUserSceneController implements Initializable {
 
     /**
      * Initializes the controller class.

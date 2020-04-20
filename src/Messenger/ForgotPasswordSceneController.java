@@ -14,7 +14,7 @@ import javafx.fxml.Initializable;
  *
  * @author Justin
  */
-public class ForgotPasswordUIController implements Initializable {
+public class ForgotPasswordSceneController implements Initializable {
 
     /**
      * Initializes the controller class.
