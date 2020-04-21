@@ -1,26 +1,47 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package messenger;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
-/**
- *
- * @author sscho
- */
-public class ConversationSceneController implements Initializable {
+public class ConversationSceneController {
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private Button messagesButton;
+
+    @FXML
+    void gotoMessagesScene(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("MessagesScene.fxml"));
+            Parent secondRoot = loader.load();
+            
+            // Show Second FXML in new a window            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(secondRoot));
+            stage.setTitle("Messages Window");
+            stage.show();
+        } 
+        catch (IOException ex) {
+            System.err.println(ex);
+        }
     }
-    
+
+    @FXML
+    void initialize() {
+        assert messagesButton != null : "fx:id=\"messagesButton\" was not injected: check your FXML file 'ConversationScene.fxml'.";
+
+    }
 }

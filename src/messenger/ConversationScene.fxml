@@ -5,10 +5,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="messenger.ConversationSceneController">
    <children>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Messages" />
+      <Button fx:id="messagesButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#gotoMessagesScene" text="Messages" />
       <Button layoutX="476.0" layoutY="14.0" mnemonicParsing="false" text="View Contact Info" />
       <TableView layoutX="15.0" layoutY="48.0" prefHeight="335.0" prefWidth="571.0">
         <columns>
