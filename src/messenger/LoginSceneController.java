@@ -1,5 +1,6 @@
 package messenger;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -11,9 +12,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class LoginSceneController {
-
+    
     @FXML
     private ResourceBundle resources;
 
@@ -37,25 +39,53 @@ public class LoginSceneController {
 
     @FXML
     void gotoConversationScene(ActionEvent event) {
-        System.out.println("test");
-        
-        Main m = new Main();
-        Parent p = m.root;
-        
-//        Parent root = FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
-        Scene scene = new Scene(p);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ConversationScene.fxml"));
+            Parent secondRoot = loader.load();
+            
+            // Show Second FXML in new a window            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(secondRoot));
+            stage.setTitle("Conversation Window");
+            stage.show();
+        } 
+        catch (IOException ex) {
+            System.err.println(ex);
+        }
     }
 
     @FXML
     void gotoForgotPasswordScene(ActionEvent event) {
-
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ForgotPasswordScene.fxml"));
+            Parent secondRoot = loader.load();
+            
+            // Show Second FXML in new a window            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(secondRoot));
+            stage.setTitle("Forgot Password Window");
+            stage.show();
+        } 
+        catch (IOException ex) {
+            System.err.println(ex);
+        }
     }
 
     @FXML
     void gotoNewUserScene(ActionEvent event) {
-
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("NewUserScene.fxml"));
+            Parent secondRoot = loader.load();
+            
+            // Show Second FXML in new a window            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(secondRoot));
+            stage.setTitle("New User Window");
+            stage.show();
+        } 
+        catch (IOException ex) {
+            System.err.println(ex);
+        }
     }
 
     @FXML
