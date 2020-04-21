@@ -11,7 +11,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="messenger.LoginSceneController">
    <children>
-      <Button fx:id="loginButton" alignment="CENTER" layoutX="277.0" layoutY="216.0" mnemonicParsing="false" onAction="#gotoConversationScene" text="Login" />
+      <Button fx:id="loginButton" alignment="CENTER" layoutX="277.0" layoutY="216.0" mnemonicParsing="false" onAction="#gotoMessagesScene" text="Login" />
       <PasswordField fx:id="passwordField" layoutX="220.0" layoutY="175.0" prefHeight="25.0" prefWidth="161.0" />
       <Label layoutX="155.0" layoutY="179.0" text="Password" />
       <TextField fx:id="usernameField" layoutX="220.0" layoutY="139.0" prefHeight="25.0" prefWidth="161.0" />

@@ -38,15 +38,15 @@ public class LoginSceneController {
     private Hyperlink createAccountButton;
 
     @FXML
-    void gotoConversationScene(ActionEvent event) {
+    void gotoMessagesScene(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ConversationScene.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("MessagesScene.fxml"));
             Parent secondRoot = loader.load();
             
             // Show Second FXML in new a window            
             Stage stage = new Stage();
             stage.setScene(new Scene(secondRoot));
-            stage.setTitle("Conversation Window");
+            stage.setTitle("Messages Window");
             stage.show();
         } 
         catch (IOException ex) {
