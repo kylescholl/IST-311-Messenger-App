@@ -43,14 +43,12 @@ public class Main extends Application {
 //        primaryStage.setTitle("Hello World!");
 //        primaryStage.setScene(scene);
 //        primaryStage.show();
-        
 
 // loading from FXML
-        Parent root = FXMLLoader.load(getClass().getResource("ConversationScene.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        primaryStage.show(); 
-
+        primaryStage.show();
     }
 
     /**
