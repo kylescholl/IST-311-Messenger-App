@@ -23,17 +23,19 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
     
+    Parent root = new Parent() {};
+    
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
+//        Button btn = new Button();
+//        btn.setText("Say 'Hello World'");
+//        btn.setOnAction(new EventHandler<ActionEvent>() {
+//            
+//            @Override
+//            public void handle(ActionEvent event) {
+//                System.out.println("Hello World!");
+//            }
+//        });
         
 //        StackPane root = new StackPane();
 //        root.getChildren().add(btn);
@@ -44,8 +46,8 @@ public class Main extends Application {
 //        primaryStage.setScene(scene);
 //        primaryStage.show();
 
-// loading from FXML
-        Parent root = FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
+        // loading from FXML
+        root = FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
