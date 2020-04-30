@@ -79,7 +79,9 @@ public class UserModel implements Serializable {
     
     @Override
     public String toString() {
-        return "ist311project.UserModel[ id=" + user_id + " ]";
+        
+        return "messenger.UserModel[ id=" + user_id + " ]";
+                        //might need to change this (id)
     }
 
     public String getPassword() {
