@@ -5,14 +5,21 @@
  */
 package messenger;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -50,7 +57,19 @@ public class NewUserSceneController implements Initializable {
 
     @FXML
     private void signInAction(ActionEvent event) {
-        // go to login scene
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginScene.fxml"));
+            Parent secondRoot = null;
+        try {
+            secondRoot = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(NewUserSceneController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+            // Show Second FXML in new a window            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(secondRoot));
+            stage.setTitle("Login Window");
+            stage.show();
+            // loading from FXML
     }
-    
 }
