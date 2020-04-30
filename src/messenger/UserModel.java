@@ -16,67 +16,77 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "UserModel")
+@Table(name = "Users") // --> should our table be called UsersModel?
 @NamedQueries({
-    @NamedQuery(name = "UserModel.findAll", query = "SELECT s FROM UserModel s"),
-    @NamedQuery(name = "UserModel.findById", query = "SELECT s FROM UserModel s WHERE s.id = :id"),
-    @NamedQuery(name = "UserModel.findByValue", query = "SELECT s FROM UserModel s WHERE s.value = :value")})
+    @NamedQuery(name = "UserModel.findAll", query = "SELECT s FROM Users s"),
+    @NamedQuery(name = "UserModel.findById", query = "SELECT s FROM Users s WHERE s.id = :id"),
+    @NamedQuery(name = "UserModel.findByValue", query = "SELECT s FROM Users s WHERE s.value = :value")})
 public class UserModel implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "ID")
-    private Long id;
-    @Column(name = "Value")
-    private String value;
-
+    @Column(name = "UserID")
+    private Long user_id;
+    @Column(name = "Email")
+    private String email;
+    @Column(name = "Password")
+    private String password;
+    
+    private static final long serialVersionUID = 1L;
+    
     public UserModel() {
     }
-
-    public UserModel(Long id) {
-        this.id = id;
+    
+    public UserModel(Long user_id) {
+        this.user_id = user_id;
     }
-
+    
     public Long getId() {
-        return id;
+        return user_id;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    
+    public void setId(Long user_id) {
+        this.user_id = user_id;
     }
-
-    public String getValue() {
-        return value;
+    
+    public String getEmail() {
+        return email;
     }
-
-    public void setValue(String value) {
-        this.value = value;
+    
+    public void setEmail(String email) {
+        this.email = email;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (user_id != null ? user_id.hashCode() : 0);
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - this method won't work in the case the user_id fields are not set
         if (!(object instanceof UserModel)) {
             return false;
         }
         UserModel other = (UserModel) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.user_id == null && other.user_id != null) || (this.user_id != null && !this.user_id.equals(other.user_id))) {
             return false;
         }
         return true;
     }
-
+    
     @Override
     public String toString() {
-        return "ist311project.UserModel[ id=" + id + " ]";
+        return "ist311project.UserModel[ id=" + user_id + " ]";
     }
-    
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
