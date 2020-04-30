@@ -26,6 +26,7 @@ public class ForgotPasswordSceneController implements Initializable {
 
     /**
      * Initializes the controller class.
+     * TODO add function to send the recovery email
      */
     @FXML
     void sendButtonPress(ActionEvent event) {
@@ -36,7 +37,6 @@ public class ForgotPasswordSceneController implements Initializable {
             alert.setContentText("Password recovery email sent");
             alert.showAndWait();
 
-            //todo function to send email to input
         } catch (Exception ex) {
             System.err.println(ex);
         }
