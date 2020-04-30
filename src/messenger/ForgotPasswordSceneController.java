@@ -9,7 +9,9 @@ package messenger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 
 /**
  * FXML Controller class
@@ -17,6 +19,9 @@ import javafx.fxml.Initializable;
  * @author Justin
  */
 public class ForgotPasswordSceneController implements Initializable {
+
+    @FXML
+    private Button sendButton;
 
     /**
      * Initializes the controller class.
