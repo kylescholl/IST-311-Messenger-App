@@ -1,11 +1,21 @@
 package messenger;
 
+
 import java.io.IOException;
+
 import java.net.URL;
+
+import java.util.List;
 import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,29 +24,34 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+
+
 public class LoginSceneController {
     
     @FXML
     private ResourceBundle resources;
-
+    
     @FXML
     private URL location;
-
+    
     @FXML
     private Button loginButton;
-
+    
     @FXML
     private PasswordField passwordField;
-
+    
     @FXML
     private TextField usernameField;
-
+    
     @FXML
     private Hyperlink forgotPasswordButton;
-
+    
     @FXML
     private Hyperlink createAccountButton;
-
+    
     @FXML
     void gotoMessagesScene(ActionEvent event) {
         try {
@@ -53,7 +68,7 @@ public class LoginSceneController {
             System.err.println(ex);
         }
     }
-
+    
     @FXML
     void gotoForgotPasswordScene(ActionEvent event) {
         try {
@@ -70,7 +85,7 @@ public class LoginSceneController {
             System.err.println(ex);
         }
     }
-
+    
     @FXML
     void gotoNewUserScene(ActionEvent event) {
         try {
@@ -87,7 +102,36 @@ public class LoginSceneController {
             System.err.println(ex);
         }
     }
-
+    
+    EntityManager manager;
+    
+    public void loadData() {
+        // Using new "UsersModel" DB Table + Class
+        Query query = manager.createNamedQuery("UsersModel.findAll");
+        Query q_email = manager.createNamedQuery("UsersModel.findByEmail");
+        
+        
+        // Using "Users" DB Table + Class
+        Query query_2 = manager.createNamedQuery("Users.findAll");
+        Query q_email_2 = manager.createNamedQuery("Users.findByEmail");
+        System.out.println("q_email: " + q_email);
+        
+        List<UsersModel> data = query.getResultList();
+        System.out.println("data: " + data);
+        
+        ObservableList<UsersModel> odata = FXCollections.observableArrayList();
+        System.out.println("odata: " + odata);
+        
+        for (UsersModel d : data) {
+            //...   
+            System.out.println(d.getId());
+            odata.add(d);
+        }
+        
+        //modelTable.setItems(odata);
+    }
+    
+    
     @FXML
     void initialize() {
         assert loginButton != null : "fx:id=\"loginButton\" was not injected: check your FXML file 'LoginScene.fxml'.";
@@ -97,7 +141,16 @@ public class LoginSceneController {
         assert createAccountButton != null : "fx:id=\"createAccountButton\" was not injected: check your FXML file 'LoginScene.fxml'.";
         
         // will load data from DB here
+        // loading data from database
+        //database reference: "IST-311-messenger-app-JavaFXPU"
+        manager = (EntityManager) Persistence.createEntityManagerFactory("IST-311-messenger-app-JavaFXPU").createEntityManager();
         
         
+    //set up the columns in the table
+//        modelColumnID.setCellValueFactory(new PropertyValueFactory<>("Id")); //should match with attribute Id (e.g., getId/setId methods) in SimpleModel
+//        modelColumnValue.setCellValueFactory(new PropertyValueFactory<>("Value")); //should match with attribute Value (e.g., getValue/setValue methods) in SimpleModel
+        
+        //loading data
+        loadData();
     }
 }

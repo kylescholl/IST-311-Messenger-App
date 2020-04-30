@@ -14,14 +14,19 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-
+/**
+ *
+ * @author sscho
+ */
 @Entity
-@Table(name = "Users") // --> should our table be called UsersModel?
+@Table(name = "UsersModel") // --> should our table be called UsersModel?
 @NamedQueries({
-    @NamedQuery(name = "UserModel.findAll", query = "SELECT s FROM Users s"),
-    @NamedQuery(name = "UserModel.findById", query = "SELECT s FROM Users s WHERE s.id = :id"),
-    @NamedQuery(name = "UserModel.findByValue", query = "SELECT s FROM Users s WHERE s.value = :value")})
-public class UserModel implements Serializable {
+    @NamedQuery(name = "UsersModel.findAll", query = "SELECT s FROM UsersModel s"),
+    @NamedQuery(name = "UsersModel.findById", query = "SELECT s FROM Users s WHERE s.UserID = :id"),
+    @NamedQuery(name = "UsersModel.findByEmail", query = "SELECT s FROM Users s WHERE s.Email = :email"),
+    @NamedQuery(name = "UsersModel.findByPassword", query = "SELECT s FROM Users s WHERE s.Password = :pw")
+})
+public class UsersModel implements Serializable {
 
     @Id
     @Basic(optional = false)
@@ -34,10 +39,10 @@ public class UserModel implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    public UserModel() {
+    public UsersModel() {
     }
     
-    public UserModel(Long user_id) {
+    public UsersModel(Long user_id) {
         this.user_id = user_id;
     }
     
@@ -67,10 +72,10 @@ public class UserModel implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the user_id fields are not set
-        if (!(object instanceof UserModel)) {
+        if (!(object instanceof UsersModel)) {
             return false;
         }
-        UserModel other = (UserModel) object;
+        UsersModel other = (UsersModel) object;
         if ((this.user_id == null && other.user_id != null) || (this.user_id != null && !this.user_id.equals(other.user_id))) {
             return false;
         }

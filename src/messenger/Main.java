@@ -1,6 +1,5 @@
 package messenger;
 
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -34,3 +33,29 @@ public class Main extends Application {
         launch(args);
     }
 }
+
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//
+// DAO
+//public class Main {
+//	public static void main(String[] args) { 
+//		// Gets an entity manager and a transaction
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("MyUnitName"); 
+//		EntityManager em = emf.createEntityManager(); 
+//		// Persists the entity to the database 
+//		EntityTransactiontx = em.getTransaction(); 	
+//		try{
+//			tx.begin(); 
+//			em.persist(entity); 
+//			tx.commit(); 
+//		} catch (Exception e) {
+//			...
+//			tx.rollback();
+//		} finally {
+//			em.close(); 
+//			emf.close();
+//		}
+//	}
+//}
