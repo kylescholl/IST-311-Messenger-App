@@ -8,6 +8,6 @@
    <children>
       <ListView fx:id="messagesList" layoutX="14.0" layoutY="44.0" prefHeight="340.0" prefWidth="570.0" />
       <Button fx:id="settingsButton" layoutX="525.0" layoutY="14.0" mnemonicParsing="false" text="Settings" />
-      <Button fx:id="tempButton" layoutX="178.0" layoutY="14.0" mnemonicParsing="false" onAction="#gotoConversationScene" text="TempButton" />
+      <Button fx:id="tempButton" layoutX="178.0" layoutY="14.0" mnemonicParsing="false" onAction="#gotoConversationScene" text="Conversation" />
    </children>
 </AnchorPane>

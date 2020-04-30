@@ -27,7 +27,7 @@ public class MessagesSceneController {
     private Button settingsButton;
 
     @FXML
-    private Button tempButton;
+    private Button conversationButton;
 
     @FXML
     void gotoConversationScene(ActionEvent event) {
@@ -50,7 +50,7 @@ public class MessagesSceneController {
     void initialize() {
         assert messagesList != null : "fx:id=\"messagesList\" was not injected: check your FXML file 'MessagesScene.fxml'.";
         assert settingsButton != null : "fx:id=\"settingsButton\" was not injected: check your FXML file 'MessagesScene.fxml'.";
-        assert tempButton != null : "fx:id=\"tempButton\" was not injected: check your FXML file 'MessagesScene.fxml'.";
+        assert conversationButton != null : "fx:id=\"conversationButton\" was not injected: check your FXML file 'MessagesScene.fxml'.";
 
     }
 }
