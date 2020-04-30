@@ -15,11 +15,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "SampleModel")
+@Table(name = "UserModel")
 @NamedQueries({
-    @NamedQuery(name = "SampleModel.findAll", query = "SELECT s FROM SampleModel s"),
-    @NamedQuery(name = "SampleModel.findById", query = "SELECT s FROM SampleModel s WHERE s.id = :id"),
-    @NamedQuery(name = "SampleModel.findByValue", query = "SELECT s FROM SampleModel s WHERE s.value = :value")})
+    @NamedQuery(name = "UserModel.findAll", query = "SELECT s FROM UserModel s"),
+    @NamedQuery(name = "UserModel.findById", query = "SELECT s FROM UserModel s WHERE s.id = :id"),
+    @NamedQuery(name = "UserModel.findByValue", query = "SELECT s FROM UserModel s WHERE s.value = :value")})
 public class UserModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,10 +30,10 @@ public class UserModel implements Serializable {
     @Column(name = "Value")
     private String value;
 
-    public SampleModel() {
+    public UserModel() {
     }
 
-    public SampleModel(Long id) {
+    public UserModel(Long id) {
         this.id = id;
     }
 
@@ -63,10 +63,10 @@ public class UserModel implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SampleModel)) {
+        if (!(object instanceof UserModel)) {
             return false;
         }
-        SampleModel other = (SampleModel) object;
+        UserModel other = (UserModel) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -75,7 +75,7 @@ public class UserModel implements Serializable {
 
     @Override
     public String toString() {
-        return "ist311project.SampleModel[ id=" + id + " ]";
+        return "ist311project.UserModel[ id=" + id + " ]";
     }
     
 }
