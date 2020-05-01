@@ -45,7 +45,14 @@ public class NewUserSceneController {
     EntityManager manager;
     Query q_maxID;
     List<Users> data;
-
+    
+    // TESTING //
+    public void cancelLogin() {
+        System.out.println("GGGGGGGGGGGG: " + loginSegueButton.getScene().getWindow());
+        loginSegueButton.getScene().getWindow().hide();
+    }
+    // TESTING //
+    
     /**
      * @param email
      * @return
@@ -66,7 +73,7 @@ public class NewUserSceneController {
         }
         return false;
     }
-
+    
     public static boolean isValidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."
                 + "[a-zA-Z0-9_+&*-]+)*@"
@@ -82,6 +89,21 @@ public class NewUserSceneController {
 
     public Long getMaxID() {
         return ((Long) q_maxID.getResultList().get(0));
+    }
+    
+    public boolean checkPassword() {
+        if (!passwordField.getText().equals(null)) {
+            if (!passwordField.getText().contains(" ")) {
+                if (passwordField.getText().equals(confirmPasswordField.getText())) {
+                    return true;
+                }
+            } else {
+                System.out.println("pw contains spaces");
+            }
+        } else {
+            System.out.println("No pw entered");
+        }
+        return false;
     }
 
     @FXML
@@ -107,8 +129,9 @@ public class NewUserSceneController {
         if (checkEmail(email_input)) {
             // Confirm passwords match
             System.out.println("test");
-            if (passwordField.getText().equals(confirmPasswordField.getText())) {
-                if (maxID < 0) {
+            if (checkPassword()) {
+                System.out.println("maxID: " + maxID);
+                if (maxID == null) {
                     // Add user to DB
                     Users user = new Users();
                     user.setId(maxID + 1L);
@@ -141,14 +164,14 @@ public class NewUserSceneController {
                  */
             }
         } else {
-
+            
             /**
              * TODO: Make a new label in scene builder when this runs, display
              * an error message to user stating email already exists in system.
              */
         }
     }
-
+    
     /**
      * Return to LoginScene
      */
@@ -191,7 +214,7 @@ public class NewUserSceneController {
         assert confirmPasswordField != null : "fx:id=\"confirmPasswordField\" was not injected: check your FXML file 'NewUserScene.fxml'.";
         assert emailField != null : "fx:id=\"emailField\" was not injected: check your FXML file 'NewUserScene.fxml'.";
         assert loginSegueButton != null : "fx:id=\"loginSegueButton\" was not injected: check your FXML file 'NewUserScene.fxml'.";
-
+        
         //load data from database
         manager = (EntityManager) Persistence.createEntityManagerFactory("IST-311-messenger-app-JavaFXPU").createEntityManager();
         //load data
