@@ -120,7 +120,7 @@ public class LoginSceneController {
         assert usernameField != null : "fx:id=\"usernameField\" was not injected: check your FXML file 'LoginScene.fxml'.";
         assert forgotPasswordButton != null : "fx:id=\"forgotPasswordButton\" was not injected: check your FXML file 'LoginScene.fxml'.";
         assert createAccountButton != null : "fx:id=\"createAccountButton\" was not injected: check your FXML file 'LoginScene.fxml'.";
-
+        
         // will load data from DB here
         // loading data from database
         //database reference: "IST-311-messenger-app-JavaFXPU"
