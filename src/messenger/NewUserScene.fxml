@@ -22,7 +22,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Hyperlink fx:id="loginSegue" layoutX="326.0" layoutY="305.0" onAction="#signInAction" text="Login" underline="true">
+      <Hyperlink fx:id="loginSegueButton" layoutX="326.0" layoutY="305.0" onAction="#loginSegue" text="Login" underline="true">
          <font>
             <Font size="14.0" />
          </font></Hyperlink>
