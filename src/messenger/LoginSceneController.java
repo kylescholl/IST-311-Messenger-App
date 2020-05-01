@@ -94,7 +94,6 @@ public class LoginSceneController {
     EntityManager manager;
 
     public void loadData() {
-        
         Query q_all = manager.createNamedQuery("Users.findAll");
         Query q_email = manager.createNamedQuery("Users.findByEmail");
         System.out.println("q_email: " + q_email);
