@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package messenger;
 
 import java.io.Serializable;
@@ -15,7 +11,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
- * 
  * @author sscho
  */
 @Entity
@@ -26,13 +21,6 @@ import javax.persistence.Table;
     @NamedQuery(name = "Users.findByEmail", query = "SELECT s FROM Users s WHERE s.email = :email"),
     @NamedQuery(name = "Users.findByPassword", query = "SELECT s FROM Users s WHERE s.password = :password")
 })
-//@Table(name = "Users")
-//@NamedQueries({
-//    @NamedQuery(name = "Users.findAll", query = "SELECT s FROM Users s"),
-//    @NamedQuery(name = "Users.findById", query = "SELECT s FROM Users s WHERE s.user_id = :id"),
-//    @NamedQuery(name = "Users.findByEmail", query = "SELECT s FROM Users s WHERE s.email = :email"),
-//    @NamedQuery(name = "Users.findByPassword", query = "SELECT s FROM Users s WHERE s.password = :password")
-//})
 public class Users implements Serializable {
     
     @Id
@@ -43,15 +31,6 @@ public class Users implements Serializable {
     private String email;
     @Column(name = "password")
     private String password;
-    
-    
-//        @Basic(optional = false)
-//    @Column(name = "UserID") // This needs to be col name in table
-//    private Long user_id;    // This needs to be the same as SQL statement above
-//    @Column(name = "Email")
-//    private String email;
-//    @Column(name = "Password")
-//    private String password;
     
     private static final long serialVersionUID = 1L;
     
@@ -100,7 +79,6 @@ public class Users implements Serializable {
     
     @Override
     public String toString() {
-        //return "messenger.Users[ id=" + user_id + " ]";
         return "messenger.Users[ id=" + user_id + " ]";
     }
     
