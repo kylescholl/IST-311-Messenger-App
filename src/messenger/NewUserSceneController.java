@@ -114,6 +114,14 @@ public class NewUserSceneController {
             } else {
                 throw new IllegalArgumentException("id cannot be null");
             }
+        } else {
+            System.out.println("Email already in system");
+            /**
+             * TODO:
+             * Make a new label in scenebuilder
+             * When this runs, display an error message to 
+             *  user stating email already exists in system.
+             */
         }
 
         // This will only happen when a new user is successfully registered //
@@ -162,19 +170,6 @@ public class NewUserSceneController {
 
         //List<Users> data = q_all.getResultList();
         data = q_all.getResultList();
-        System.out.println("data: " + data);
-        // "data.toString()" does nothing --> same output as "data"
-
-        ObservableList<Users> odata = FXCollections.observableArrayList();
-
-        System.out.println("\nEmails: ");
-        for (Users d : data) {
-            System.out.println(d.getEmail());
-            odata.add(d);
-        }
-        System.out.println("odata: " + odata);
-        System.out.println("odata.toString(): " + odata.toString());
-        //modelTable.setItems(odata);
     }
 
     /**
@@ -187,7 +182,7 @@ public class NewUserSceneController {
         assert confirmPasswordField != null : "fx:id=\"confirmPasswordField\" was not injected: check your FXML file 'NewUserScene.fxml'.";
         assert emailField != null : "fx:id=\"emailField\" was not injected: check your FXML file 'NewUserScene.fxml'.";
         assert loginSegueButton != null : "fx:id=\"loginSegueButton\" was not injected: check your FXML file 'NewUserScene.fxml'.";
-
+        
         //load data from database
         manager = (EntityManager) Persistence.createEntityManagerFactory("IST-311-messenger-app-JavaFXPU").createEntityManager();
         //load data
