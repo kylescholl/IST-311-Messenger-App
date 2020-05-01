@@ -48,8 +48,6 @@ public class NewUserSceneController {
 
     EntityManager manager;
     List<Users> data;
-    //Long id = -1;
-//    Long id;
 
     /**
      *
@@ -59,7 +57,6 @@ public class NewUserSceneController {
     public boolean checkEmail(String email) {
         for (Users d : data) {
             if (d.getEmail().equals(email)) {
-                //id = d.getId();
                 return true;
             }
         }
@@ -91,7 +88,11 @@ public class NewUserSceneController {
          */
 
         // Confirm valid email format
+        
+        
         // Confirm passwords match
+        
+        
         // Check if email is already in system
         Long maxID = getMaxID();
         String email_input = emailField.getText();
@@ -100,12 +101,6 @@ public class NewUserSceneController {
         if (!checkEmail(email_input)) {
             // Add user to DB
             if (!maxID.equals(null)) {
-                System.out.println("");
-                System.out.println(maxID);
-                System.out.println(email_input);
-                System.out.println(password_input);
-                System.out.println("");
-
                 Users user = new Users();
                 user.setId(maxID + 1L);
                 user.setEmail(email_input);
@@ -160,10 +155,6 @@ public class NewUserSceneController {
     }
 
     public void loadData() {
-        System.out.println("\nMaxID");
-        Query q_maxID = manager.createNamedQuery("Users.getMaxID");
-        Long maxID = (Long) q_maxID.getResultList().get(0);
-
         Query q_all = manager.createNamedQuery("Users.findAll");
         Query q_email = manager.createNamedQuery("Users.findByEmail");
         System.out.println("q_email: " + q_email);
