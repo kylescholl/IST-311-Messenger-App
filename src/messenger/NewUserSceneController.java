@@ -128,16 +128,14 @@ public class NewUserSceneController {
         // Check if email is already in system
         if (checkEmail(email_input)) {
             // Confirm passwords match
-            System.out.println("test");
             if (checkPassword()) {
-                System.out.println("maxID: " + maxID);
-                if (maxID != null)) {
+                if (maxID > 0) {
                     // Add user to DB
                     Users user = new Users();
                     user.setId(maxID + 1L);
                     user.setEmail(email_input);
                     user.setPassword(password_input);
-
+                    
                     manager.getTransaction().begin();
                     manager.persist(user);
                     manager.getTransaction().commit();
