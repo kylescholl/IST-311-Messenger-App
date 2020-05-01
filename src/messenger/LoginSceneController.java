@@ -96,8 +96,16 @@ public class LoginSceneController {
     }
 
     EntityManager manager;
+    //private EntityManager manager;
 
     public void loadData() {
+        /**
+         * TODO:
+         * Need to confirm that entered email and password match up
+         *  can be done a few ways --> most likely method by using identifying
+         *  user_id of a valid email, then comparing entered password with DB password
+         */
+        
         Query q_all = manager.createNamedQuery("Users.findAll");
         Query q_email = manager.createNamedQuery("Users.findByEmail");
         System.out.println("q_email: " + q_email);
@@ -105,14 +113,13 @@ public class LoginSceneController {
         List<Users> data = q_all.getResultList();
         System.out.println("data: " + data);
         
-        ObservableList<Users> odata = FXCollections.observableArrayList();
-        System.out.println("odata: " + odata);
+        // is this needed? --> oLists are usually used in tableViews
+        //ObservableList<Users> odata = FXCollections.observableArrayList();
         
         for (Users d : data) { 
             System.out.println(d.getId());
-            odata.add(d);
+            //odata.add(d);
         }
-        
         //modelTable.setItems(odata);
     }
 
