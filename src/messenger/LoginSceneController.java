@@ -94,30 +94,22 @@ public class LoginSceneController {
     EntityManager manager;
 
     public void loadData() {
-        // Using Users Table
-//        Query q_all = manager.createNamedQuery("Users.findAll");
-//        Query q_email = manager.createNamedQuery("Users.findByEmail");
-//        System.out.println("q_email: " + q_email);
-
-        // Using Users Table
+        
         Query q_all = manager.createNamedQuery("Users.findAll");
         Query q_email = manager.createNamedQuery("Users.findByEmail");
         System.out.println("q_email: " + q_email);
         
-        
-
         List<Users> data = q_all.getResultList();
         System.out.println("data: " + data);
-
+        
         ObservableList<Users> odata = FXCollections.observableArrayList();
         System.out.println("odata: " + odata);
-
-        for (Users d : data) {
-            //...   
+        
+        for (Users d : data) { 
             System.out.println(d.getId());
             odata.add(d);
         }
-
+        
         //modelTable.setItems(odata);
     }
 
