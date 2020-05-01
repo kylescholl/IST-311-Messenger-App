@@ -19,7 +19,11 @@ import javax.persistence.Table;
     @NamedQuery(name = "Users.findAll", query = "SELECT s FROM Users s"),
     @NamedQuery(name = "Users.findById", query = "SELECT s FROM Users s WHERE s.user_id = :id"),
     @NamedQuery(name = "Users.findByEmail", query = "SELECT s FROM Users s WHERE s.email = :email"),
-    @NamedQuery(name = "Users.findByPassword", query = "SELECT s FROM Users s WHERE s.password = :password")
+    @NamedQuery(name = "Users.findByPassword", query = "SELECT s FROM Users s WHERE s.password = :password"),
+    
+    @NamedQuery(name = "Users.getMaxID", query = "SELECT MAX(s.user_id) AS LargestID FROM Users s"),
+    
+    //@NamedQuery(name = "Users.insertNewUser", query = "INSERT INTO Users s (s.user_id, s.email, s.password) VALUES (?,?,?)")
 })
 public class Users implements Serializable {
     
@@ -89,4 +93,12 @@ public class Users implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+//    public void insertWithQuery(Users user) {
+//        entityManager.createNativeQuery("INSERT INTO person (id, first_name, last_name) VALUES (?,?,?)")
+//            .setParameter(1, person.getId())
+//        .setParameter(2, person.getFirstName())
+//        .setParameter(3, person.getLastName())
+//        .executeUpdate();
+//    }
 }
