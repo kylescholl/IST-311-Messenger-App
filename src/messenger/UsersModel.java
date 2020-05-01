@@ -19,23 +19,39 @@ import javax.persistence.Table;
  * @author sscho
  */
 @Entity
-@Table(name = "UsersModel") // --> should our table be called UsersModel?
+@Table(name = "Users")
 @NamedQueries({
-    @NamedQuery(name = "UsersModel.findAll", query = "SELECT s FROM UsersModel s"),
-    @NamedQuery(name = "UsersModel.findById", query = "SELECT s FROM Users s WHERE s.UserID = :id"),
-    @NamedQuery(name = "UsersModel.findByEmail", query = "SELECT s FROM Users s WHERE s.Email = :email"),
-    @NamedQuery(name = "UsersModel.findByPassword", query = "SELECT s FROM Users s WHERE s.Password = :pw")
+    @NamedQuery(name = "Users.findAll", query = "SELECT s FROM Users s"),
+    @NamedQuery(name = "Users.findById", query = "SELECT s FROM Users s WHERE s.user_id = :id"),
+    @NamedQuery(name = "Users.findByEmail", query = "SELECT s FROM Users s WHERE s.email = :email"),
+    @NamedQuery(name = "Users.findByPassword", query = "SELECT s FROM Users s WHERE s.password = :password")
 })
+//@Table(name = "UsersModel")
+//@NamedQueries({
+//    @NamedQuery(name = "UsersModel.findAll", query = "SELECT s FROM UsersModel s"),
+//    @NamedQuery(name = "UsersModel.findById", query = "SELECT s FROM UsersModel s WHERE s.user_id = :id"),
+//    @NamedQuery(name = "UsersModel.findByEmail", query = "SELECT s FROM UsersModel s WHERE s.email = :email"),
+//    @NamedQuery(name = "UsersModel.findByPassword", query = "SELECT s FROM UsersModel s WHERE s.password = :password")
+//})
 public class UsersModel implements Serializable {
-
+    
     @Id
     @Basic(optional = false)
-    @Column(name = "UserID")
-    private Long user_id;
-    @Column(name = "Email")
+    @Column(name = "user_id") // This needs to be col name in table
+    private Long user_id;    // This needs to be the same as SQL statement above
+    @Column(name = "email")
     private String email;
-    @Column(name = "Password")
+    @Column(name = "password")
     private String password;
+    
+    
+//        @Basic(optional = false)
+//    @Column(name = "UserID") // This needs to be col name in table
+//    private Long user_id;    // This needs to be the same as SQL statement above
+//    @Column(name = "Email")
+//    private String email;
+//    @Column(name = "Password")
+//    private String password;
     
     private static final long serialVersionUID = 1L;
     
