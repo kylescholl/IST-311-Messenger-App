@@ -15,7 +15,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
- *
+ * 
  * @author sscho
  */
 @Entity
@@ -26,14 +26,14 @@ import javax.persistence.Table;
     @NamedQuery(name = "Users.findByEmail", query = "SELECT s FROM Users s WHERE s.email = :email"),
     @NamedQuery(name = "Users.findByPassword", query = "SELECT s FROM Users s WHERE s.password = :password")
 })
-//@Table(name = "UsersModel")
+//@Table(name = "Users")
 //@NamedQueries({
-//    @NamedQuery(name = "UsersModel.findAll", query = "SELECT s FROM UsersModel s"),
-//    @NamedQuery(name = "UsersModel.findById", query = "SELECT s FROM UsersModel s WHERE s.user_id = :id"),
-//    @NamedQuery(name = "UsersModel.findByEmail", query = "SELECT s FROM UsersModel s WHERE s.email = :email"),
-//    @NamedQuery(name = "UsersModel.findByPassword", query = "SELECT s FROM UsersModel s WHERE s.password = :password")
+//    @NamedQuery(name = "Users.findAll", query = "SELECT s FROM Users s"),
+//    @NamedQuery(name = "Users.findById", query = "SELECT s FROM Users s WHERE s.user_id = :id"),
+//    @NamedQuery(name = "Users.findByEmail", query = "SELECT s FROM Users s WHERE s.email = :email"),
+//    @NamedQuery(name = "Users.findByPassword", query = "SELECT s FROM Users s WHERE s.password = :password")
 //})
-public class UsersModel implements Serializable {
+public class Users implements Serializable {
     
     @Id
     @Basic(optional = false)
@@ -55,10 +55,10 @@ public class UsersModel implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    public UsersModel() {
+    public Users() {
     }
     
-    public UsersModel(Long user_id) {
+    public Users(Long user_id) {
         this.user_id = user_id;
     }
     
@@ -88,10 +88,10 @@ public class UsersModel implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the user_id fields are not set
-        if (!(object instanceof UsersModel)) {
+        if (!(object instanceof Users)) {
             return false;
         }
-        UsersModel other = (UsersModel) object;
+        Users other = (Users) object;
         if ((this.user_id == null && other.user_id != null) || (this.user_id != null && !this.user_id.equals(other.user_id))) {
             return false;
         }
@@ -100,11 +100,10 @@ public class UsersModel implements Serializable {
     
     @Override
     public String toString() {
-        
-        return "messenger.UserModel[ id=" + user_id + " ]";
-                        //might need to change this (id)
+        //return "messenger.Users[ id=" + user_id + " ]";
+        return "messenger.Users[ id=" + user_id + " ]";
     }
-
+    
     public String getPassword() {
         return password;
     }
