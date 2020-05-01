@@ -131,7 +131,7 @@ public class NewUserSceneController {
             System.out.println("test");
             if (checkPassword()) {
                 System.out.println("maxID: " + maxID);
-                if (maxID == null) {
+                if (maxID != null)) {
                     // Add user to DB
                     Users user = new Users();
                     user.setId(maxID + 1L);
@@ -154,7 +154,7 @@ public class NewUserSceneController {
                     // Transition back to login page
                 } else {
                     System.out.println("maxID: " + maxID);
-                    throw new IllegalArgumentException("id cannot be less than 0");
+                    throw new IllegalArgumentException("id cannot be null");
                 }
             } else {
                 System.out.println("Passwords do not match");
