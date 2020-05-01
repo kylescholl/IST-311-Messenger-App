@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 
 /**
+ * Main Class
  * @author sscho
  */
 public class Main extends Application {
