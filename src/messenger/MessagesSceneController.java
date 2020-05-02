@@ -1,7 +1,6 @@
 package messenger;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +18,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+/**
+ * MessagesSceneController class
+ * @author sscho
+ */
 public class MessagesSceneController {
 
     @FXML

@@ -21,8 +21,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
- * NewUserSceneController Class
- *
+ * NewUserSceneController class
  * @author sscho
  */
 public class NewUserSceneController {
@@ -78,7 +77,6 @@ public class NewUserSceneController {
                 + "[a-zA-Z0-9_+&*-]+)*@"
                 + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
                 + "A-Z]{2,7}$";
-
         Pattern pattern = Pattern.compile(emailRegex);
         if (email == null) {
             return false;
@@ -106,11 +104,12 @@ public class NewUserSceneController {
         /**
          * TODO: Verify proper data entry --> email must be in correct format
          * Verify email doesn't already exist in system
-         *
-         * Send new user's data to DB Notify user of success (done) Close or
-         * transition back to login scene --> if unable to find a solution, just
-         * have them close it (see below)
-         *
+         * 
+         * Send new user's data to DB
+         * 
+         * Close or transition back to login scene --> if unable to find a solution, 
+         * just have them close it (see below)
+         * 
          * PROBLEM: Old login scene will not have new user's information unless
          * queried again POSSIBLE SOLUTION: Close old window when transitioning
          * to new scene
@@ -125,7 +124,6 @@ public class NewUserSceneController {
             if (checkPassword()) {
                 // Add user to DB
                 Users user = new Users();
-                //user.setId(maxID + 1L); // would not explicitly settign this cause index to trigger?
                 user.setEmail(email_input);
                 user.setPassword(password_input);
 
@@ -153,7 +151,6 @@ public class NewUserSceneController {
                  */
             }
         } else {
-
             /**
              * TODO: Make a new label in scene builder when this runs, display
              * an error message to user stating email already exists in system.
@@ -176,10 +173,9 @@ public class NewUserSceneController {
         try {
             secondRoot = loader.load();
         } catch (IOException ex) {
-            Logger.getLogger(NewUserSceneController.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NewUserSceneController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         // Show Second FXML in new a window            
         Stage stage = new Stage();
         stage.setScene(new Scene(secondRoot));
@@ -202,7 +198,7 @@ public class NewUserSceneController {
         assert confirmPasswordField != null : "fx:id=\"confirmPasswordField\" was not injected: check your FXML file 'NewUserScene.fxml'.";
         assert emailField != null : "fx:id=\"emailField\" was not injected: check your FXML file 'NewUserScene.fxml'.";
         assert loginSegueButton != null : "fx:id=\"loginSegueButton\" was not injected: check your FXML file 'NewUserScene.fxml'.";
-
+        
         //load data from database
         manager = (EntityManager) Persistence.createEntityManagerFactory("IST-311-messenger-app-JavaFXPU").createEntityManager();
         //load data

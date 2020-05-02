@@ -6,10 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-// TEST //
-
 /**
- * Main Class
+ * Main class
  * @author sscho
  */
 public class Main extends Application {

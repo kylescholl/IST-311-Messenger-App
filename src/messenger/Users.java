@@ -1,4 +1,3 @@
-
 package messenger;
 
 import java.io.Serializable;
@@ -13,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
+ * Model class for Users table
  * @author sscho
  */
 @Entity
@@ -22,19 +22,15 @@ import javax.persistence.Table;
     @NamedQuery(name = "Users.findById", query = "SELECT s FROM Users s WHERE s.user_id = :id"),
     @NamedQuery(name = "Users.findByEmail", query = "SELECT s FROM Users s WHERE s.email = :email"),
     @NamedQuery(name = "Users.findByPassword", query = "SELECT s FROM Users s WHERE s.password = :password"),
-    
-    @NamedQuery(name = "Users.getMaxID", query = "SELECT MAX(s.user_id) AS LargestID FROM Users s"),
-    
-    //@NamedQuery(name = "Users.getLastInsertID", query = "SELECT LAST_INSERT_ID()"),
-    
-    //@NamedQuery(name = "Users.insertNewUser", query = "INSERT INTO Users s (s.user_id, s.email, s.password) VALUES (?,?,?)")
+    @NamedQuery(name = "Users.getMaxID", query = "SELECT MAX(s.user_id) AS LargestID FROM Users s")
 })
 public class Users implements Serializable {
-
+    
+    // not really sure what these are for --> they were auto-generated
     @OneToMany(mappedBy = "firstUserId")
-    private List<Conversation> conversationList;
+    private List<Conversation> firstUserIdConversationList;
     @OneToMany(mappedBy = "secondUserId")
-    private List<Conversation> conversationList1;
+    private List<Conversation> secondUserIdConversationList1;
     
     @Id
     @Basic(optional = false)
@@ -103,19 +99,19 @@ public class Users implements Serializable {
         this.password = password;
     }
 
-    public List<Conversation> getConversationList() {
-        return conversationList;
+    public List<Conversation> getFirstUserIdConversationList() {
+        return firstUserIdConversationList;
     }
 
-    public void setConversationList(List<Conversation> conversationList) {
-        this.conversationList = conversationList;
+    public void setFirstUserIdConversationList(List<Conversation> firstUserIdConversationList) {
+        this.firstUserIdConversationList = firstUserIdConversationList;
     }
 
-    public List<Conversation> getConversationList1() {
-        return conversationList1;
+    public List<Conversation> getSecondUserIdConversationList1() {
+        return secondUserIdConversationList1;
     }
 
-    public void setConversationList1(List<Conversation> conversationList1) {
-        this.conversationList1 = conversationList1;
+    public void setSecondUserIdConversationList1(List<Conversation> secondUserIdConversationList1) {
+        this.secondUserIdConversationList1 = secondUserIdConversationList1;
     }
 }
