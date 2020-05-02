@@ -2,12 +2,10 @@ package messenger;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,22 +13,16 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
  * LoginSceneController Class
+ *
  * @author sscho
  */
 public class LoginSceneController {
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private Button loginButton;
@@ -46,12 +38,19 @@ public class LoginSceneController {
 
     @FXML
     private Hyperlink createAccountButton;
-
+    
+    Long id;
+    
     @FXML
     void gotoMessagesScene(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MessagesScene.fxml"));
             Parent secondRoot = loader.load();
+            
+            // Pass data to new controller
+            MessagesSceneController controller = loader.<MessagesSceneController>getController();
+            //controller.initData(id);
+            controller.initData(2L);
 
             // Show Second FXML in new a window            
             Stage stage = new Stage();
@@ -82,12 +81,11 @@ public class LoginSceneController {
     @FXML
     void gotoNewUserScene(ActionEvent event) {
         try {
-            
+
 //            Window w = ((Node)event.getTarget()).getScene().getWindow();
 ////            Stage s = ((Node)event.getTarget()).getScene();
 //            System.out.println("w: " + w);
 //            System.out.println("s: " + s);
-            
             FXMLLoader loader = new FXMLLoader(getClass().getResource("NewUserScene.fxml"));
             Parent secondRoot = loader.load();
 
@@ -96,8 +94,7 @@ public class LoginSceneController {
             stage.setScene(new Scene(secondRoot));
             stage.setTitle("New User Window");
             stage.show();
-            
-            
+
         } catch (IOException ex) {
             System.err.println(ex);
         }
@@ -107,15 +104,14 @@ public class LoginSceneController {
 
     public void loadData() {
         /**
-         * TODO:
-         * Need to confirm that entered email and password match up
-         *  can be done a few ways --> most likely method by using identifying
-         *  user_id of a valid email, then comparing entered password with DB password
+         * TODO: Need to confirm that entered email and password match up can be
+         * done a few ways --> most likely method by using identifying user_id
+         * of a valid email, then comparing entered password with DB password
          */
-        
+
         Query q_all = manager.createNamedQuery("Users.findAll");
         Query q_email = manager.createNamedQuery("Users.findByEmail");
-        
+
         // is this needed? --> oLists are usually used in tableViews
         //ObservableList<Users> odata = FXCollections.observableArrayList();
         //modelTable.setItems(odata);
@@ -128,7 +124,7 @@ public class LoginSceneController {
         assert usernameField != null : "fx:id=\"usernameField\" was not injected: check your FXML file 'LoginScene.fxml'.";
         assert forgotPasswordButton != null : "fx:id=\"forgotPasswordButton\" was not injected: check your FXML file 'LoginScene.fxml'.";
         assert createAccountButton != null : "fx:id=\"createAccountButton\" was not injected: check your FXML file 'LoginScene.fxml'.";
-        
+
         // will load data from DB here
         // loading data from database
         //database reference: "IST-311-messenger-app-JavaFXPU"
