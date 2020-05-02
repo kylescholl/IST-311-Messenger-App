@@ -132,14 +132,24 @@ public class NewUserSceneController {
                 if (maxID > 0) {
                     // Add user to DB
                     Users user = new Users();
-                    user.setId(maxID + 1L); // would not explicitly settign this cause index to trigger?
+                    //user.setId(maxID + 1L);
                     user.setEmail(email_input);
                     user.setPassword(password_input);
                     
                     manager.getTransaction().begin();
                     manager.persist(user);
                     manager.getTransaction().commit();
-
+                    
+                    // TESTING //
+                    // THIS  WORKS
+                    Testing test = new Testing();
+                    test.setFirstName("Big");
+                    test.setLastName("Boi");
+                    
+                    manager.getTransaction().begin();
+                    manager.persist(test);
+                    manager.getTransaction().commit();
+                    // TESTING //
                     try {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Information Dialog");
