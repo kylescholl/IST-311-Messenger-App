@@ -81,11 +81,6 @@ public class LoginSceneController {
     @FXML
     void gotoNewUserScene(ActionEvent event) {
         try {
-
-//            Window w = ((Node)event.getTarget()).getScene().getWindow();
-////            Stage s = ((Node)event.getTarget()).getScene();
-//            System.out.println("w: " + w);
-//            System.out.println("s: " + s);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("NewUserScene.fxml"));
             Parent secondRoot = loader.load();
 

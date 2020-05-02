@@ -30,6 +30,10 @@ public class ConversationSceneController {
             System.err.println(ex);
         }
     }
+    
+    void initData(Long id) {
+        
+    }
 
     @FXML
     void initialize() {
