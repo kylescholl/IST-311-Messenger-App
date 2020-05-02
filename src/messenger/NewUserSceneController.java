@@ -43,16 +43,15 @@ public class NewUserSceneController {
     private Hyperlink loginSegueButton;
 
     EntityManager manager;
-    Query q_maxID;
     List<Users> data;
-    
+
     // TESTING //
-    public void cancelLogin() {
+    public void cancel() {
         System.out.println("GGGGGGGGGGGG: " + loginSegueButton.getScene().getWindow());
         loginSegueButton.getScene().getWindow().hide();
     }
     // TESTING //
-    
+
     /**
      * @param email
      * @return
@@ -73,7 +72,7 @@ public class NewUserSceneController {
         }
         return false;
     }
-    
+
     public static boolean isValidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."
                 + "[a-zA-Z0-9_+&*-]+)*@"
@@ -87,10 +86,6 @@ public class NewUserSceneController {
         return pattern.matcher(email).matches();
     }
 
-    public Long getMaxID() {
-        return ((Long) q_maxID.getResultList().get(0));
-    }
-    
     public boolean checkPassword() {
         if (!passwordField.getText().equals(null)) {
             if (!passwordField.getText().contains(" ")) {
@@ -122,38 +117,34 @@ public class NewUserSceneController {
          */
 
         // Confirm valid email format
-        Long maxID = getMaxID();
         String email_input = emailField.getText();
         String password_input = passwordField.getText();
         // Check if email is already in system
         if (checkEmail(email_input)) {
             // Confirm passwords match
             if (checkPassword()) {
-                if (maxID > 0) {
-                    // Add user to DB
-                    Users user = new Users();
-                    user.setId(maxID + 1L); // would not explicitly settign this cause index to trigger?
-                    user.setEmail(email_input);
-                    user.setPassword(password_input);
-                    
-                    manager.getTransaction().begin();
-                    manager.persist(user);
-                    manager.getTransaction().commit();
+                // Add user to DB
+                Users user = new Users();
+                //user.setId(maxID + 1L); // would not explicitly settign this cause index to trigger?
+                user.setEmail(email_input);
+                user.setPassword(password_input);
 
-                    try {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Information Dialog");
-                        alert.setHeaderText("Welcome!");
-                        alert.setContentText("New Account Created");
-                        alert.showAndWait();
-                    } catch (Exception ex) {
-                        System.err.println(ex);
-                    }
-                    // Transition back to login page
-                } else {
-                    System.out.println("maxID: " + maxID);
-                    throw new IllegalArgumentException("id cannot be null");
+                manager.getTransaction().begin();
+                manager.persist(user);
+                manager.getTransaction().commit();
+
+                System.out.println("[New user successfully registered]");
+
+                try {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information Dialog");
+                    alert.setHeaderText("Welcome!");
+                    alert.setContentText("New Account Created");
+                    alert.showAndWait();
+                } catch (Exception ex) {
+                    System.err.println(ex);
                 }
+                // Transition back to login page
             } else {
                 System.out.println("Passwords do not match");
                 /**
@@ -162,14 +153,14 @@ public class NewUserSceneController {
                  */
             }
         } else {
-            
+
             /**
              * TODO: Make a new label in scene builder when this runs, display
              * an error message to user stating email already exists in system.
              */
         }
     }
-    
+
     /**
      * Return to LoginScene
      */
@@ -197,7 +188,6 @@ public class NewUserSceneController {
     }
 
     public void loadData() {
-        q_maxID = manager.createNamedQuery("Users.getMaxID");
         Query q_all = manager.createNamedQuery("Users.findAll");
         data = q_all.getResultList();
     }
@@ -212,7 +202,7 @@ public class NewUserSceneController {
         assert confirmPasswordField != null : "fx:id=\"confirmPasswordField\" was not injected: check your FXML file 'NewUserScene.fxml'.";
         assert emailField != null : "fx:id=\"emailField\" was not injected: check your FXML file 'NewUserScene.fxml'.";
         assert loginSegueButton != null : "fx:id=\"loginSegueButton\" was not injected: check your FXML file 'NewUserScene.fxml'.";
-        
+
         //load data from database
         manager = (EntityManager) Persistence.createEntityManagerFactory("IST-311-messenger-app-JavaFXPU").createEntityManager();
         //load data
