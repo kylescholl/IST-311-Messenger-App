@@ -6,8 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+// TEST //
 
 /**
+ * Main Class
  * @author sscho
  */
 public class Main extends Application {
@@ -16,7 +18,6 @@ public class Main extends Application {
     
     @Override
     public void start(Stage primaryStage) throws Exception {
-        
         window = primaryStage;
         
         // loading from FXML
@@ -33,29 +34,3 @@ public class Main extends Application {
         launch(args);
     }
 }
-
-
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//
-// DAO
-//public class Main {
-//	public static void main(String[] args) { 
-//		// Gets an entity manager and a transaction
-//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("MyUnitName"); 
-//		EntityManager em = emf.createEntityManager(); 
-//		// Persists the entity to the database 
-//		EntityTransactiontx = em.getTransaction(); 	
-//		try{
-//			tx.begin(); 
-//			em.persist(entity); 
-//			tx.commit(); 
-//		} catch (Exception e) {
-//			...
-//			tx.rollback();
-//		} finally {
-//			em.close(); 
-//			emf.close();
-//		}
-//	}
-//}
