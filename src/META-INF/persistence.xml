@@ -4,6 +4,8 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>messenger.Users</class>
     <class>messenger.Conversation</class>
+    <class>messenger.Testing</class>
+    <class>testing.Testing</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://ist311db.cahpdmpysbav.us-east-2.rds.amazonaws.com:3306/db8?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="db8_user"/>
