@@ -47,10 +47,6 @@ public class Users implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    public void createTable(String t) {
-        
-    }
-    
     public Users() {
     }
     
@@ -106,14 +102,6 @@ public class Users implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-//    public void insertWithQuery(Users user) {
-//        entityManager.createNativeQuery("INSERT INTO person (id, first_name, last_name) VALUES (?,?,?)")
-//            .setParameter(1, person.getId())
-//        .setParameter(2, person.getFirstName())
-//        .setParameter(3, person.getLastName())
-//        .executeUpdate();
-//    }
 
     public List<Conversation> getConversationList() {
         return conversationList;
