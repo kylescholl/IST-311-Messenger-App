@@ -18,12 +18,11 @@ public class MessagesSceneController {
     private ListView<String> messagesList;
 
     EntityManager manager;
-    Query q_maxID;
     List<Users> users_data;
     List<Conversation> convo_data;
     Long current_id;
     Set<Long> convo_id_set = new HashSet<>();
-    //Set<Long> convo_id_set = Collections.<Long>emptySet();
+    Set<Long> friend_id_set = new HashSet<>();
     
         // Receive users_data from previous controller
     void initData(Long id) {
@@ -36,16 +35,27 @@ public class MessagesSceneController {
             Long secondUserId = c.getSecondUserId().getId();
             System.out.println("\nc_id.getId: " + c.getFirstUserId().getId());
             System.out.println("current_id: " + current_id);
-            if (firstUserId.equals(current_id) || secondUserId.equals(current_id)) {
-                System.out.println("conversation found");
-                System.out.println("convoId: " + convoId);
-                System.out.println("set: " + convo_id_set);
-                System.out.println(convoId.getClass());
+            if (firstUserId.equals(current_id)) {
                 convo_id_set.add(convoId);
-                System.out.println("test");
+                friend_id_set.add(firstUserId);
+            }
+            if (secondUserId.equals(current_id)) {
+                convo_id_set.add(convoId);
+                friend_id_set.add(secondUserId);
             }
         }
         System.out.println("convo_id_set: " + convo_id_set);
+        System.out.println(users_data);
+        // Load data into messagesList
+        for (Long item : friend_id_set) {
+            for (Users d : users_data) {
+                if (item.equals(d.getId())) {
+                    String name = d.getEmail();
+                    String toDisplay = name + " " + convo_id_set.toString();
+                    messagesList.getItems().add(name);
+                }
+            }
+        }
     }
 
     @FXML
@@ -53,18 +63,16 @@ public class MessagesSceneController {
         System.out.println("test");
         System.out.println("id: " + current_id);
         
-        messagesList.getItems().add("Item 2");
+        //messagesList.getItems().add("Item 2");
     }
 
     public void loadData() {
-        q_maxID = manager.createNamedQuery("Users.getMaxID");
-        Query q_all = manager.createNamedQuery("Users.findAll");
-        users_data = q_all.getResultList();
-
+        //Query q_users_ = manager.createNamedQuery("Users.findById");
+        Query q_users = manager.createNamedQuery("Users.findAll");
+        users_data = q_users.getResultList();
+        
         Query q = manager.createNamedQuery("Conversation.findAll");
         convo_data = q.getResultList();
-
-        
         
         messagesList.getItems().add("Item 1");
     }
