@@ -19,10 +19,10 @@ import javafx.stage.Stage;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import testing.Testing;
 
 /**
  * NewUserSceneController Class
- *
  * @author sscho
  */
 public class NewUserSceneController {
@@ -47,7 +47,7 @@ public class NewUserSceneController {
     List<Users> data;
     
     // TESTING //
-    public void cancelLogin() {
+    public void cancel() {
         System.out.println("GGGGGGGGGGGG: " + loginSegueButton.getScene().getWindow());
         loginSegueButton.getScene().getWindow().hide();
     }
