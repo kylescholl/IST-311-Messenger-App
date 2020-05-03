@@ -127,7 +127,7 @@ public class MessagesSceneController {
     }
 
     @FXML
-    void gotoConversationScene(MouseEvent event) {
+    void gotoConversationScene(MouseEvent event) { //REMOVE
 
         System.out.println("id: " + current_id);
 

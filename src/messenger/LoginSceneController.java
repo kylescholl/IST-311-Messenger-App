@@ -45,10 +45,8 @@ public class LoginSceneController {
          * TODO:
          *
          * Add user login authentication.
-         *
-         * Pass the id os that user to next controller. (done)
-         *
-         *
+         * 
+         * refresh data when hitting continue to get newly created user
          */
 
         try {
