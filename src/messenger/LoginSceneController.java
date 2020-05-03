@@ -1,8 +1,6 @@
 package messenger;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +16,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
- * LoginSceneController Class
+ * LoginSceneController class
  *
  * @author sscho
  */
@@ -38,15 +36,25 @@ public class LoginSceneController {
 
     @FXML
     private Hyperlink createAccountButton;
-    
+
     Long id;
-    
+
     @FXML
     void gotoMessagesScene(ActionEvent event) {
+        /**
+         * TODO:
+         *
+         * Add user login authentication.
+         *
+         * Pass the id os that user to next controller. (done)
+         *
+         *
+         */
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MessagesScene.fxml"));
             Parent secondRoot = loader.load();
-            
+
             // Pass data to new controller
             MessagesSceneController controller = loader.<MessagesSceneController>getController();
             //controller.initData(id);
