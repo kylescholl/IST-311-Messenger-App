@@ -5,7 +5,6 @@ package messenger;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import com.sun.mail.smtp.SMTPTransport;
 import java.net.URL;
 import java.util.Date;
 import java.util.Properties;
@@ -19,7 +18,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javax.mail.Authenticator;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
