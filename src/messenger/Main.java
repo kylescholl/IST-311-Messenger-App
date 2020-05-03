@@ -22,6 +22,8 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
         Scene scene = new Scene(root);
         window.setScene(scene);
+//        MessagesSceneController controller = root.<LoginSceneController>getController();
+//        controller.initData(window);
         window.show();
     }
     

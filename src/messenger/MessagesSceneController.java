@@ -37,14 +37,17 @@ public class MessagesSceneController {
     Set<Long> convo_id_set = new HashSet<>();
     Set<Long> friend_id_set = new HashSet<>();
     Map<Long, Long> friend_id_map = new HashMap<>();
+    
+    Stage old_stage;
 
     // Receive users_data from previous controller
-    void initData(Long id) {
+    void initData(Stage s, Long id) {
+        old_stage = s;
         current_id = id;
         System.out.println("convo_data: " + convo_data);
 
         for (Conversation c : convo_data) {
-            Long convoId = c.getConversationId();
+            Long convoId = c.getId();
             Long firstUserId = c.getFirstUserId().getId();
             Long secondUserId = c.getSecondUserId().getId();
             System.out.println("\nc_id.getId: " + c.getFirstUserId().getId());
@@ -113,12 +116,16 @@ public class MessagesSceneController {
 
                 // Pass data to new controller
                 ConversationSceneController controller = loader.<ConversationSceneController>getController();
+                System.out.println("\nconvo_id being passed: " + convo_id);
                 controller.initData(convo_id);
 
                 // Show Second FXML in new a window            
                 Stage stage = new Stage();
                 stage.setScene(new Scene(secondRoot));
                 stage.setTitle("Messages Window");
+                
+                old_stage.close();
+                
                 stage.show();
             } catch (IOException ex) {
                 System.err.println(ex);

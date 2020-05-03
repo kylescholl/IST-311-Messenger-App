@@ -38,6 +38,7 @@ public class LoginSceneController {
     private Hyperlink createAccountButton;
 
     Long id;
+    Stage old_stage;
 
     @FXML
     void gotoMessagesScene(ActionEvent event) {
@@ -55,13 +56,16 @@ public class LoginSceneController {
 
             // Pass data to new controller
             MessagesSceneController controller = loader.<MessagesSceneController>getController();
-            //controller.initData(id);
-            controller.initData(2L);
+            
 
             // Show Second FXML in new a window            
             Stage stage = new Stage();
             stage.setScene(new Scene(secondRoot));
             stage.setTitle("Messages Window");
+            
+            //controller.initData(id);
+            controller.initData(stage, 2L);
+            
             stage.show();
         } catch (IOException ex) {
             System.err.println(ex);
@@ -78,6 +82,7 @@ public class LoginSceneController {
             Stage stage = new Stage();
             stage.setScene(new Scene(secondRoot));
             stage.setTitle("Forgot Password Window");
+            old_stage.close();
             stage.show();
         } catch (IOException ex) {
             System.err.println(ex);
@@ -116,6 +121,10 @@ public class LoginSceneController {
         // is this needed? --> oLists are usually used in tableViews
         //ObservableList<Users> odata = FXCollections.observableArrayList();
         //modelTable.setItems(odata);
+    }
+    
+    void initData(Stage s) {
+        old_stage = s;
     }
 
     @FXML
