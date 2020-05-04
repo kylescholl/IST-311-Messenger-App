@@ -16,7 +16,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.sql.*;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -56,7 +55,6 @@ public class ConversationSceneController {
     boolean isInitial = true;
 
     // JDBC driver name, database URL and credentials
-    //static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://ist311db.cahpdmpysbav.us-east-2.rds.amazonaws.com:3306/db8?zeroDateTimeBehavior=CONVERT_TO_NULL";
     //  Database credentials
@@ -90,17 +88,16 @@ public class ConversationSceneController {
          * --> Logic will prob be in initData(), so either call that or make a
          * new method will similar functionality.
          */
-        refresh(false);
+        refresh(true);
     }
 
     void refresh(boolean check) {
         if (check) {
             isInitial = false;
             System.out.println("isInitial");
-            
         }
         conversationList.getItems().removeAll(messages);
-
+        
         getMessagesFromDB();
 
         for (Map<String, String> message : messages) {
@@ -128,12 +125,14 @@ public class ConversationSceneController {
         conversationList.setCellFactory(lv -> {
             ListCell<String> cell = new ListCell<String>() {
                 protected void updateItem(String item, boolean empty) {
-                    System.out.println("L_?");
+                    System.out.println(isInitial);
                     super.updateItem(item, empty);
-                    if (item != null && isInitial) {
-                        setText(item);
-                    } else {
-                        setText("");
+                    //if (isInitial) {
+                        if (item != null) {
+                            setText(item);
+                        } else {
+                            setText("");
+                      //  }
                     }
                 }
             };
