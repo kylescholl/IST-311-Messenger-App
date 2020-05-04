@@ -18,6 +18,7 @@ import javax.persistence.Query;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -46,27 +47,30 @@ public class ConversationSceneController {
     List<Users> users_data;
     List<Messages> messages_data;
     List<Messages> test_data;
+    
+    LinkedList<LinkedHashMap<String,String>> messages = new LinkedList<>();
+    //LinkedHashMap<String,String> message;
+    
+    LinkedHashMap<Long,String> messagesList;
+    
     Long convo_id;
-//    Set<Long> convo_id_set = new HashSet<>();
-//    Set<Long> friend_id_set = new HashSet<>();
-//    Map<Long, Long> friend_id_map = new HashMap<>();
 
-    // JDBC driver name and database URL
+    // JDBC driver name, database URL and credentials
     //static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://ist311db.cahpdmpysbav.us-east-2.rds.amazonaws.com:3306/db8?zeroDateTimeBehavior=CONVERT_TO_NULL";
     //  Database credentials
     static final String USER = "db8_user";
     static final String PASS = "db8_user_ist311_rpz";
-
+    
     // WIP
     @FXML
     void gotoMessagesScene(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MessagesScene.fxml"));
             Parent secondRoot = loader.load();
-
-            // Show Second FXML in new a window            
+            
+            // Show Second FXML in new a window
             Stage stage = new Stage();
             stage.setScene(new Scene(secondRoot));
             stage.setTitle("Messages Window");
@@ -121,71 +125,99 @@ public class ConversationSceneController {
 
     void initData(Long id) {
         convo_id = id;
+        System.out.println("\n\nconvo_id assigneds");
         
+        String query 
+                = "SELECT c.id, m.message_id, m.conversation_id, m.sender_id, m.body, m.time_stamp\n"
+                + "FROM Conversation c\n"
+                + "INNER JOIN Messages m ON c.id = m.conversation_id;";
+        //getMessagesForConvoId(convo_id);
         
+        makeQuery(query, convo_id);
+        System.out.println("messages: " + messages);
         
-        
-        
-        
-        
-        
-        
-        // OLD //
-
-        System.out.println("aaaa: " + messages_data);
-        
-        Conversation c = manager.find(Conversation.class, id);
-        System.out.println("c: " + c);
-        Messages messages = new Messages();
-        //Long l = messages.getConversationId();
-
-        System.out.println("    " + convo_id);
-        for (Messages m : messages_data) {
-
-            String toDisplay = m.getBody();
-            conversationList.getItems().add(toDisplay);
+        for (Map<String,String> message : messages) {
+            System.out.println("\nid: " + message.get("id"));
+            System.out.println("convo_id: " + convo_id);
+            
+            if (message.get("id") == convo_id.toString()) {
+                System.out.println("L_?");
+                String toDisplay = message.get("body");
+                conversationList.getItems().add(toDisplay);
+            }
         }
-
-        // load messages into listView
-//        for (Messages m : messages_data) {
-//            Long convoId = m.getConversationId();
-//            Long firstUserId = m.getFirstUserId().getId();
-//            Long secondUserId = m.getSecondUserId().getId();
-//            System.out.println("\nc_id.getId: " + m.getFirstUserId().getId());
-//            System.out.println("current_id: " + current_id);
-//            if (firstUserId.equals(current_id)) {
-//                convo_id_set.add(convoId);
-//                friend_id_set.add(secondUserId);
-//                friend_id_map.put(secondUserId, convoId);
-//            }
-//            if (secondUserId.equals(current_id)) {
-//                convo_id_set.add(convoId);
-//                friend_id_set.add(firstUserId);
-//                friend_id_map.put(firstUserId, convoId);
-//            }
-//        }
     }
+    
+    void makeQuery(String query, Long id) {
+        Connection connection = null;
+        Statement statement = null;
+        
+        try {
+            Class.forName(JDBC_DRIVER);
+            connection = DriverManager.getConnection(DB_URL, USER, PASS);
+            
+            statement = connection.createStatement();
+            
+            String sql = query;
+            ResultSet rs = statement.executeQuery(sql);
+            
+            //Get data from result set
+            while (rs.next()) {
+                LinkedHashMap<String,String> map = new LinkedHashMap<>();
+                Long c_id = rs.getLong("id");
+                Long m_message_id = rs.getLong("m.message_id");
+                Long m_sender_id = rs.getLong("m.sender_id");
+                String m_body = rs.getString("m.body");
+                String m_time_stamp = rs.getString("m.time_stamp");
+                
+                map.put("id", c_id.toString());
+                map.put("message_id", m_message_id.toString());
+                map.put("sender_id", m_sender_id.toString());
+                map.put("body", m_body);
+                map.put("time_stamp", m_time_stamp);
+                
+                System.out.println("DEBUG");
+                System.out.println("map: " + map);
+                
+                messages.add(map);
+                
+                // TODO need to add these to a list as it iterates through
+                // use an if statement to match GLOBAL convo_id to sql id
+                // add message_id, sender_id, body, and time_stamp to lists
+                System.out.println("zzzzzzzzzz");
+                System.out.println(c_id);
+                System.out.println(id);
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException se) {
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException se2) {
 
-    public void loadData() {
-        Query q_users = manager.createNamedQuery("Users.findAll");
-        users_data = q_users.getResultList();
-
-        Query q = manager.createNamedQuery("Messages.findAll");
-        messages_data = q.getResultList();
-
-        // TESTING //
-        //test();
-        System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+            }
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException se) {
+            }
+        }
+    }
+    
+    void getMessagesForConvoId(Long id) {
         String s 
                 = "SELECT c.id, m.message_id, m.conversation_id, m.sender_id, m.body, m.time_stamp\n"
                 + "FROM Conversation c\n"
                 + "INNER JOIN Messages m ON c.id = m.conversation_id;";
-        getMessagesForConvoId(s, 1L);
-        System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
-    }
-
-    //consider making this a general method and just passing in the desired sql query
-    LinkedHashMap<String,String> getMessagesForConvoId(String query, Long id) {
+        
+        String query 
+                = "SELECT conversation_id, ";
+        
         Connection connection = null;
         Statement statement = null;
         
@@ -208,15 +240,19 @@ public class ConversationSceneController {
                 String m_body = rs.getString("m.body");
                 String m_time_stamp = rs.getString("m.time_stamp");
                 
-                map.put("id", c_id.toString());
-                map.put("message_id", m_message_id.toString());
-                map.put("sender_id", m_sender_id.toString());
-                map.put("body", m_body);
-                map.put("time_stamp", m_time_stamp);
-                
                 // TODO need to add these to a list as it iterates through
                 // use an if statement to match GLOBAL convo_id to sql id
                 // add message_id, sender_id, body, and time_stamp to lists
+                System.out.println("zzzzzzzzzz");
+                System.out.println(c_id);
+                System.out.println(id);
+                
+                if (c_id.equals(id)) {
+                    messagesList.put(m_message_id, m_body);
+                    System.out.println("ggggggggg");
+                }
+                System.out.println("messagesList.current: " + messagesList);
+                
                 
                 System.out.println("map.current: " + map);
                 
@@ -241,7 +277,14 @@ public class ConversationSceneController {
             } catch (SQLException se) {
             }
         }
-        return map;
+    }
+
+    public void loadData() {
+        Query q_users = manager.createNamedQuery("Users.findAll");
+        users_data = q_users.getResultList();
+
+        Query q = manager.createNamedQuery("Messages.findAll");
+        messages_data = q.getResultList();
     }
 
     void test() {
