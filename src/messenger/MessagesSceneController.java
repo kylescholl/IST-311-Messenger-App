@@ -1,18 +1,23 @@
 package messenger;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -30,15 +35,121 @@ public class MessagesSceneController {
     @FXML
     private ListView<String> messagesList;
 
+    @FXML
+    private Button createConversationButton;
+
+    @FXML
+    private TextField newEmailField;
+    
+    // JDBC driver name, database URL and credentials
+    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+    static final String DB_URL = "jdbc:mysql://ist311db.cahpdmpysbav.us-east-2.rds.amazonaws.com:3306/db8?zeroDateTimeBehavior=CONVERT_TO_NULL";
+    //  Database credentials
+    static final String USER = "db8_user";
+    static final String PASS = "db8_user_ist311_rpz";
+
     EntityManager manager;
     List<Users> users_data;
     List<Conversation> convo_data;
     Long current_id;
+    Long other_id;
     Set<Long> convo_id_set = new HashSet<>();
     Set<Long> friend_id_set = new HashSet<>();
     Map<Long, Long> friend_id_map = new HashMap<>();
-    
+
     Stage old_stage;
+    
+    @FXML
+    void createConversation(ActionEvent event) {
+        String s = newEmailField.getText();
+        other_id = getIdByEmail(s);
+        neww();
+    }
+    
+    Long getIdByEmail(String email) {
+        Connection connection = null;
+        Statement statement = null;
+        Long id_value = -1L;
+
+        String value = "\'" + email + "\'";
+        
+        String query 
+                = "SELECT * FROM Users\n"
+                + "WHERE email = " + value + ";";
+        System.out.println(query);
+
+        try {
+            Class.forName(JDBC_DRIVER);
+            connection = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            statement = connection.createStatement();
+
+            String sql = query;
+            ResultSet rs = statement.executeQuery(sql);
+
+            //Get data from result set
+            while (rs.next()) {
+                id_value = rs.getLong("user_id");
+            }
+            rs.close();
+        } catch (SQLException | ClassNotFoundException se) {
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException se2) {
+
+            }
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException se) {
+            }
+        }
+        return id_value;
+    }
+    
+    void neww() {
+        Connection connection = null;
+        Statement statement = null;
+
+        String values = current_id + "," + other_id;
+        
+        String query = "INSERT INTO Conversation (first_user_id, second_user_id) "
+                + "VALUES (" + values + ");";
+        System.out.println(query);
+
+        try {
+            Class.forName(JDBC_DRIVER);
+            connection = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            statement = connection.createStatement();
+
+            String sql = query;
+            //ResultSet rs = statement.executeQuery(sql);
+            statement.executeUpdate(sql);
+
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException se) {
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException se2) {
+
+            }
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException se) {
+            }
+        }
+    }
 
     // Receive users_data from previous controller
     void initData(Stage s, Long id) {
@@ -104,14 +215,14 @@ public class MessagesSceneController {
                 ConversationSceneController controller = loader.<ConversationSceneController>getController();
                 System.out.println("\nconvo_id being passed: " + convo_id);
                 controller.initData(convo_id, current_id);
-                
+
                 // Show Second FXML in new a window            
                 Stage stage = new Stage();
                 stage.setScene(new Scene(secondRoot));
                 stage.setTitle("Messages Window");
-                
+
                 old_stage.close();
-                
+
                 stage.show();
             } catch (IOException ex) {
                 System.err.println(ex);
@@ -161,6 +272,8 @@ public class MessagesSceneController {
     @FXML
     void initialize() {
         assert messagesList != null : "fx:id=\"messagesList\" was not injected: check your FXML file 'MessagesScene.fxml'.";
+        assert createConversationButton != null : "fx:id=\"createConversationButton\" was not injected: check your FXML file 'MessagesScene.fxml'.";
+        assert newEmailField != null : "fx:id=\"newEmailField\" was not injected: check your FXML file 'MessagesScene.fxml'.";
 
         manager = (EntityManager) Persistence.createEntityManagerFactory("IST-311-messenger-app-JavaFXPU").createEntityManager();
 

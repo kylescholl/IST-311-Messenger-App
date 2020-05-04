@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="messenger.MessagesSceneController">
    <children>
-      <ListView fx:id="messagesList" layoutX="14.0" layoutY="44.0" onMouseClicked="#gotoConversationScene" prefHeight="340.0" prefWidth="570.0" />
+      <ListView fx:id="messagesList" layoutX="14.0" layoutY="54.0" onMouseClicked="#gotoConversationScene" prefHeight="330.0" prefWidth="570.0" />
+      <Button fx:id="createConversationButton" layoutX="237.0" layoutY="14.0" mnemonicParsing="false" onAction="#createConversation" text="Button" />
+      <TextField fx:id="newEmailField" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="191.0" promptText="Enter email..." />
       <!--<Button fx:id="tempButton" layoutX="178.0" layoutY="14.0" mnemonicParsing="false" onAction="#gotoConversationScene" text="Conversation" />-->
    </children>
 </AnchorPane>

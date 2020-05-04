@@ -43,23 +43,20 @@ public class LoginSceneController {
     Stage old_stage;
 
     List<Users> data;
-
+    
     public boolean validateUser() {
         String username = usernameField.getText();
         String password = passwordField.getText();
         // checks if the email is valid
         for (Users d : data) {
             //Check if email already exists
-            System.out.println("GGGGGGG: " + d.getEmail());
             if (d.getEmail().equals(username)) {
-                
                 return true;
             } else {
                 System.out.println("Email not in system, please create an account");
-                return false;
             }
         }
-        return true;
+        return false;
     }
 
     @FXML
@@ -73,8 +70,8 @@ public class LoginSceneController {
          */
         boolean validEmail = validateUser();
 
-        if (validEmail == true) {
-
+        if (validEmail) {
+            
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("MessagesScene.fxml"));
                 Parent secondRoot = loader.load();
