@@ -99,5 +99,4 @@ public class ForgotPasswordSceneController implements Initializable {
         assert sendButton != null : "fx:id=\"sendButton\" was not injected: check your FXML file 'ForgotPasswordScene.fxml'.";
         // TODO
     }
-
 }

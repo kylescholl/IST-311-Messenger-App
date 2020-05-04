@@ -6,10 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-// TEST //
-
 /**
- * Main Class
+ * Main class
  * @author sscho
  */
 public class Main extends Application {
@@ -24,6 +22,8 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
         Scene scene = new Scene(root);
         window.setScene(scene);
+//        MessagesSceneController controller = root.<LoginSceneController>getController();
+//        controller.initData(window);
         window.show();
     }
     
