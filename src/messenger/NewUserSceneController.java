@@ -44,13 +44,6 @@ public class NewUserSceneController {
     EntityManager manager;
     List<Users> data;
 
-    // TESTING //
-    public void cancel() {
-        System.out.println("GGGGGGGGGGGG: " + loginSegueButton.getScene().getWindow());
-        loginSegueButton.getScene().getWindow().hide();
-    }
-    // TESTING //
-
     /**
      * @param email
      * @return
@@ -71,7 +64,7 @@ public class NewUserSceneController {
         }
         return false;
     }
-
+    
     public static boolean isValidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."
                 + "[a-zA-Z0-9_+&*-]+)*@"
@@ -126,6 +119,7 @@ public class NewUserSceneController {
                 Users user = new Users();
                 user.setEmail(email_input);
                 user.setPassword(password_input);
+                
 
                 manager.getTransaction().begin();
                 manager.persist(user);

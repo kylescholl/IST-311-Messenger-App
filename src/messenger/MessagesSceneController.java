@@ -86,20 +86,6 @@ public class MessagesSceneController {
         }
         return -1L;
     }
-    
-//    String findUsernameByEmail(String email) {
-//        for (Users user : users_data) {
-//            if (email.equals(user.getEmail())) {
-//                Long user_id = user.getId();
-//                System.out.println("MATCH");
-//                System.out.println("friend_id_map: " + friend_id_map);
-//                System.out.println("user_id: " + user_id);
-//                return "placeholder";
-//                //return friend_id_map.get(user_id);
-//            }
-//        }
-//        return "";
-//    }
 
     void segue(String cell) {
         // loop through sets to figure out matching conversation id
@@ -117,8 +103,8 @@ public class MessagesSceneController {
                 // Pass data to new controller
                 ConversationSceneController controller = loader.<ConversationSceneController>getController();
                 System.out.println("\nconvo_id being passed: " + convo_id);
-                controller.initData(convo_id);
-
+                controller.initData(convo_id, current_id);
+                
                 // Show Second FXML in new a window            
                 Stage stage = new Stage();
                 stage.setScene(new Scene(secondRoot));

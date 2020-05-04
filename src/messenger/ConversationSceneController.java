@@ -47,13 +47,13 @@ public class ConversationSceneController {
     List<Users> users_data;
     List<Messages> messages_data;
     List<Messages> test_data;
-    
-    LinkedList<LinkedHashMap<String,String>> messages = new LinkedList<>();
-    //LinkedHashMap<String,String> message;
-    
-    LinkedHashMap<Long,String> messagesList;
-    
+
+    LinkedList<LinkedHashMap<String, String>> messages = new LinkedList<>();
+    LinkedHashMap<Long, String> messagesList;
+
     Long convo_id;
+    Long user_id;
+    boolean isInitial = true;
 
     // JDBC driver name, database URL and credentials
     //static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -62,14 +62,14 @@ public class ConversationSceneController {
     //  Database credentials
     static final String USER = "db8_user";
     static final String PASS = "db8_user_ist311_rpz";
-    
+
     // WIP
     @FXML
     void gotoMessagesScene(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MessagesScene.fxml"));
             Parent secondRoot = loader.load();
-            
+
             // Show Second FXML in new a window
             Stage stage = new Stage();
             stage.setScene(new Scene(secondRoot));
@@ -90,6 +90,25 @@ public class ConversationSceneController {
          * --> Logic will prob be in initData(), so either call that or make a
          * new method will similar functionality.
          */
+        refresh(false);
+    }
+
+    void refresh(boolean check) {
+        if (check) {
+            isInitial = false;
+            System.out.println("isInitial");
+            
+        }
+        conversationList.getItems().removeAll(messages);
+
+        getMessagesFromDB();
+
+        for (Map<String, String> message : messages) {
+            if (message.get("id").equals(convo_id.toString())) {
+                String toDisplay = message.get("body");
+                conversationList.getItems().add(toDisplay);
+            }
+        }
     }
 
     @FXML
@@ -97,14 +116,21 @@ public class ConversationSceneController {
         //send message to DB
         //clear text in textField
         //call refreshData()
+
+        if (!newMessageField.getText().equals("")) {
+            sendMessageToDB();
+            refresh(true);
+            newMessageField.clear();
+        }
     }
 
     void setupListener() {
         conversationList.setCellFactory(lv -> {
             ListCell<String> cell = new ListCell<String>() {
                 protected void updateItem(String item, boolean empty) {
+                    System.out.println("L_?");
                     super.updateItem(item, empty);
-                    if (item != null) {
+                    if (item != null && isInitial) {
                         setText(item);
                     } else {
                         setText("");
@@ -123,72 +149,34 @@ public class ConversationSceneController {
         });
     }
 
-    void initData(Long id) {
+    void initData(Long id, Long userId) {
         convo_id = id;
-        System.out.println("\n\nconvo_id assigneds");
-        
-        String query 
-                = "SELECT c.id, m.message_id, m.conversation_id, m.sender_id, m.body, m.time_stamp\n"
-                + "FROM Conversation c\n"
-                + "INNER JOIN Messages m ON c.id = m.conversation_id;";
-        //getMessagesForConvoId(convo_id);
-        
-        makeQuery(query, convo_id);
-        System.out.println("messages: " + messages);
-        
-        for (Map<String,String> message : messages) {
-            System.out.println("\nid: [" + message.get("id") +"]");
-            System.out.println("convo_id: [" + convo_id + "]");
-            
-            if (message.get("id").equals(convo_id.toString())) {
-                System.out.println("L_?");
-                String toDisplay = message.get("body");
-                conversationList.getItems().add(toDisplay);
-            }
-        }
+        user_id = userId;
+
+        refresh(false);
     }
-    
-    void makeQuery(String query, Long id) {
+
+    void sendMessageToDB() {
         Connection connection = null;
         Statement statement = null;
-        
+
+        String values = convo_id + "," + user_id + ",\'" + newMessageField.getText() + "\'";
+        System.out.println(values);
+
+        String query = "INSERT INTO Messages (conversation_id, sender_id, body) "
+                + "VALUES (" + values + ");";
+        System.out.println(query);
+
         try {
             Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(DB_URL, USER, PASS);
-            
+
             statement = connection.createStatement();
-            
+
             String sql = query;
-            ResultSet rs = statement.executeQuery(sql);
-            
-            //Get data from result set
-            while (rs.next()) {
-                LinkedHashMap<String,String> map = new LinkedHashMap<>();
-                Long c_id = rs.getLong("id");
-                Long m_message_id = rs.getLong("m.message_id");
-                Long m_sender_id = rs.getLong("m.sender_id");
-                String m_body = rs.getString("m.body");
-                String m_time_stamp = rs.getString("m.time_stamp");
-                
-                map.put("id", c_id.toString());
-                map.put("message_id", m_message_id.toString());
-                map.put("sender_id", m_sender_id.toString());
-                map.put("body", m_body);
-                map.put("time_stamp", m_time_stamp);
-                
-                System.out.println("DEBUG");
-                System.out.println("map: " + map);
-                
-                messages.add(map);
-                
-                // TODO need to add these to a list as it iterates through
-                // use an if statement to match GLOBAL convo_id to sql id
-                // add message_id, sender_id, body, and time_stamp to lists
-                System.out.println("zzzzzzzzzz");
-                System.out.println(c_id);
-                System.out.println(id);
-            }
-            rs.close();
+            //ResultSet rs = statement.executeQuery(sql);
+            statement.executeUpdate(sql);
+
             statement.close();
             connection.close();
         } catch (SQLException | ClassNotFoundException se) {
@@ -208,55 +196,41 @@ public class ConversationSceneController {
             }
         }
     }
-    
-    void getMessagesForConvoId(Long id) {
-        String s 
+
+    void getMessagesFromDB() {
+        Connection connection = null;
+        Statement statement = null;
+
+        String query
                 = "SELECT c.id, m.message_id, m.conversation_id, m.sender_id, m.body, m.time_stamp\n"
                 + "FROM Conversation c\n"
                 + "INNER JOIN Messages m ON c.id = m.conversation_id;";
-        
-        String query 
-                = "SELECT conversation_id, ";
-        
-        Connection connection = null;
-        Statement statement = null;
-        
-        LinkedHashMap<String,String> map = new LinkedHashMap<>();
-        
+
         try {
             Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(DB_URL, USER, PASS);
-            
+
             statement = connection.createStatement();
-            
+
             String sql = query;
             ResultSet rs = statement.executeQuery(sql);
-            
+
             //Get data from result set
             while (rs.next()) {
+                LinkedHashMap<String, String> map = new LinkedHashMap<>();
                 Long c_id = rs.getLong("id");
                 Long m_message_id = rs.getLong("m.message_id");
                 Long m_sender_id = rs.getLong("m.sender_id");
                 String m_body = rs.getString("m.body");
                 String m_time_stamp = rs.getString("m.time_stamp");
-                
-                // TODO need to add these to a list as it iterates through
-                // use an if statement to match GLOBAL convo_id to sql id
-                // add message_id, sender_id, body, and time_stamp to lists
-                System.out.println("zzzzzzzzzz");
-                System.out.println(c_id);
-                System.out.println(id);
-                
-                if (c_id.equals(id)) {
-                    messagesList.put(m_message_id, m_body);
-                    System.out.println("ggggggggg");
-                }
-                System.out.println("messagesList.current: " + messagesList);
-                
-                
-                System.out.println("map.current: " + map);
-                
-                //System.out.println("\n    map: " + map);
+
+                map.put("id", c_id.toString());
+                map.put("message_id", m_message_id.toString());
+                map.put("sender_id", m_sender_id.toString());
+                map.put("body", m_body);
+                map.put("time_stamp", m_time_stamp);
+
+                messages.add(map);
             }
             rs.close();
             statement.close();
@@ -285,72 +259,6 @@ public class ConversationSceneController {
 
         Query q = manager.createNamedQuery("Messages.findAll");
         messages_data = q.getResultList();
-    }
-
-    void test() {
-        Connection conn = null;
-        Statement stmt = null;
-
-        try {
-            //STEP 2: Register JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
-
-            //STEP 3: Open a connection
-            System.out.println("Connecting to database...");
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-            //STEP 4: Execute a query
-            System.out.println("Creating statement...");
-            stmt = conn.createStatement();
-//            String sql = "UPDATE Employees set age=30 WHERE id=103";
-//
-//            // Let us check if it returns a true Result Set or not.
-//            Boolean ret = stmt.execute(sql);
-//            System.out.println("Return value is : " + ret.toString());
-//
-//            // Let us update age of the record with ID = 103;
-//            int rows = stmt.executeUpdate(sql);
-//            System.out.println("Rows impacted : " + rows);
-            String sql = "SELECT * FROM Users";
-            ResultSet rs = stmt.executeQuery(sql);
-
-            //Get data from result set
-            while (rs.next()) {
-                Long test_id = rs.getLong("user_id");
-                String test_username = rs.getString("username");
-                String test_email = rs.getString("email");
-                String test_password = rs.getString("password");
-
-                //Display values
-                System.out.print("id: " + test_id);
-                System.out.print(", username: " + test_username);
-                System.out.print(", email: " + test_email);
-                System.out.println(", password: " + test_password);
-            }
-            //Clean-up
-            rs.close();
-            stmt.close();
-            conn.close();
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException se2) {
-
-            }
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
-        }
     }
 
     @FXML
