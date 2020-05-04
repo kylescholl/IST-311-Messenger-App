@@ -52,17 +52,17 @@ public class NewUserSceneController {
         //Check if in email format
         if (isValidEmail(email)) {
             for (Users d : data) {
+                System.out.println("GGGGGGG: " + d.getEmail());
                 //Check if email already exists
-                if (!d.getEmail().equals(email)) {
-                    return true;
-                } else {
+                if (d.getEmail().equals(email)) {
                     System.out.println("Email already in system");
+                    return false;
                 }
             }
         } else {
             System.out.println("Not valid email");
         }
-        return false;
+        return true;
     }
     
     public static boolean isValidEmail(String email) {
@@ -78,7 +78,7 @@ public class NewUserSceneController {
     }
 
     public boolean checkPassword() {
-        if (!passwordField.getText().equals(null)) {
+        if (!passwordField.getText().equals("")) {
             if (!passwordField.getText().contains(" ")) {
                 if (passwordField.getText().equals(confirmPasswordField.getText())) {
                     return true;
@@ -112,7 +112,7 @@ public class NewUserSceneController {
         String email_input = emailField.getText();
         String password_input = passwordField.getText();
         // Check if email is already in system
-        if (checkEmail(email_input)) {
+        if (!checkEmail(email_input)) {
             // Confirm passwords match
             if (checkPassword()) {
                 // Add user to DB
@@ -180,6 +180,7 @@ public class NewUserSceneController {
     public void loadData() {
         Query q_all = manager.createNamedQuery("Users.findAll");
         data = q_all.getResultList();
+        System.out.println("data: " + data);
     }
 
     /**
