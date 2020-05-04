@@ -31,13 +31,13 @@ import javax.persistence.Query;
  * @author sscho
  */
 public class MessagesSceneController {
-
+    
     @FXML
     private ListView<String> messagesList;
-
+    
     @FXML
     private Button createConversationButton;
-
+    
     @FXML
     private TextField newEmailField;
     
