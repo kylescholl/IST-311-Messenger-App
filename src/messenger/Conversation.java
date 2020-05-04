@@ -1,6 +1,8 @@
 package messenger;
 
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,26 +11,42 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
+ * Model class for Conversation table
  * @author sscho
  */
 @Entity
 @Table(name = "Conversation")
 @NamedQueries({
     @NamedQuery(name = "Conversation.findAll", query = "SELECT c FROM Conversation c"),
-    @NamedQuery(name = "Conversation.findByConversationId", query = "SELECT c FROM Conversation c WHERE c.conversationId = :conversationId")})
+    @NamedQuery(name = "Conversation.findByConversationId", query = "SELECT c FROM Conversation c WHERE c.id = :id")})
 public class Conversation implements Serializable {
 
+//    @Column(name = "first_user_id")
+//    //private BigInteger firstUserId;
+//    private BigInteger first_user_id;
+//    @Column(name = "second_user_id")
+//    //private BigInteger secondUserId;
+//    private BigInteger second_user_id;
+    @OneToMany(mappedBy = "id")
+    
+    private Collection<Messages> messagesCollection;
+
     private static final long serialVersionUID = 1L;
+    
     @Id
     @Basic(optional = false)
-    @Column(name = "conversation_id")
-    private Long conversationId;
+    
+    @Column(name = "id")
+    private Long id;
+    
     @JoinColumn(name = "first_user_id", referencedColumnName = "user_id")
     @ManyToOne
     private Users firstUserId;
+    
     @JoinColumn(name = "second_user_id", referencedColumnName = "user_id")
     @ManyToOne
     private Users secondUserId;
@@ -37,15 +55,15 @@ public class Conversation implements Serializable {
     }
 
     public Conversation(Long conversationId) {
-        this.conversationId = conversationId;
+        this.id = conversationId;
     }
 
-    public Long getConversationId() {
-        return conversationId;
+    public Long getId() {
+        return id;
     }
 
-    public void setConversationId(Long conversationId) {
-        this.conversationId = conversationId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Users getFirstUserId() {
@@ -67,7 +85,7 @@ public class Conversation implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (conversationId != null ? conversationId.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -78,7 +96,7 @@ public class Conversation implements Serializable {
             return false;
         }
         Conversation other = (Conversation) object;
-        if ((this.conversationId == null && other.conversationId != null) || (this.conversationId != null && !this.conversationId.equals(other.conversationId))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -86,7 +104,31 @@ public class Conversation implements Serializable {
 
     @Override
     public String toString() {
-        return "messenger.Conversation[ conversationId=" + conversationId + " ]";
+        return "messenger.Conversation[ conversationId=" + id + " ]";
+    }
+
+//    public BigInteger getFirstUserId() {
+//        return firstUserId;
+//    }
+//
+//    public void setFirstUserId(BigInteger firstUserId) {
+//        this.firstUserId = firstUserId;
+//    }
+//
+//    public BigInteger getSecondUserId() {
+//        return secondUserId;
+//    }
+//
+//    public void setSecondUserId(BigInteger secondUserId) {
+//        this.secondUserId = secondUserId;
+//    }
+    
+    public Collection<Messages> getMessagesCollection() {
+        return messagesCollection;
+    }
+
+    public void setMessagesCollection(Collection<Messages> messagesCollection) {
+        this.messagesCollection = messagesCollection;
     }
     
 }

@@ -1,7 +1,6 @@
 package messenger;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +18,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+/**
+ * MessagesSceneController class
+ *
+ * For when a user is looking at all of their messages.
+ *
+ * @author sscho
+ */
 public class MessagesSceneController {
 
     @FXML
@@ -31,14 +37,17 @@ public class MessagesSceneController {
     Set<Long> convo_id_set = new HashSet<>();
     Set<Long> friend_id_set = new HashSet<>();
     Map<Long, Long> friend_id_map = new HashMap<>();
+    
+    Stage old_stage;
 
     // Receive users_data from previous controller
-    void initData(Long id) {
+    void initData(Stage s, Long id) {
+        old_stage = s;
         current_id = id;
         System.out.println("convo_data: " + convo_data);
 
         for (Conversation c : convo_data) {
-            Long convoId = c.getConversationId();
+            Long convoId = c.getId();
             Long firstUserId = c.getFirstUserId().getId();
             Long secondUserId = c.getSecondUserId().getId();
             System.out.println("\nc_id.getId: " + c.getFirstUserId().getId());
@@ -93,12 +102,16 @@ public class MessagesSceneController {
 
                 // Pass data to new controller
                 ConversationSceneController controller = loader.<ConversationSceneController>getController();
-                controller.initData(convo_id);
-
+                System.out.println("\nconvo_id being passed: " + convo_id);
+                controller.initData(convo_id, current_id);
+                
                 // Show Second FXML in new a window            
                 Stage stage = new Stage();
                 stage.setScene(new Scene(secondRoot));
                 stage.setTitle("Messages Window");
+                
+                old_stage.close();
+                
                 stage.show();
             } catch (IOException ex) {
                 System.err.println(ex);
@@ -107,7 +120,7 @@ public class MessagesSceneController {
     }
 
     @FXML
-    void gotoConversationScene(MouseEvent event) {
+    void gotoConversationScene(MouseEvent event) { //REMOVE
 
         System.out.println("id: " + current_id);
 

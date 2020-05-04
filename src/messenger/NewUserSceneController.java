@@ -21,8 +21,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
- * NewUserSceneController Class
- *
+ * NewUserSceneController class
  * @author sscho
  */
 public class NewUserSceneController {
@@ -45,13 +44,6 @@ public class NewUserSceneController {
     EntityManager manager;
     List<Users> data;
 
-    // TESTING //
-    public void cancel() {
-        System.out.println("GGGGGGGGGGGG: " + loginSegueButton.getScene().getWindow());
-        loginSegueButton.getScene().getWindow().hide();
-    }
-    // TESTING //
-
     /**
      * @param email
      * @return
@@ -60,25 +52,24 @@ public class NewUserSceneController {
         //Check if in email format
         if (isValidEmail(email)) {
             for (Users d : data) {
+                System.out.println("GGGGGGG: " + d.getEmail());
                 //Check if email already exists
-                if (!d.getEmail().equals(email)) {
-                    return true;
-                } else {
+                if (d.getEmail().equals(email)) {
                     System.out.println("Email already in system");
+                    return false;
                 }
             }
         } else {
             System.out.println("Not valid email");
         }
-        return false;
+        return true;
     }
-
+    
     public static boolean isValidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."
                 + "[a-zA-Z0-9_+&*-]+)*@"
                 + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
                 + "A-Z]{2,7}$";
-
         Pattern pattern = Pattern.compile(emailRegex);
         if (email == null) {
             return false;
@@ -87,7 +78,7 @@ public class NewUserSceneController {
     }
 
     public boolean checkPassword() {
-        if (!passwordField.getText().equals(null)) {
+        if (!passwordField.getText().equals("")) {
             if (!passwordField.getText().contains(" ")) {
                 if (passwordField.getText().equals(confirmPasswordField.getText())) {
                     return true;
@@ -106,11 +97,12 @@ public class NewUserSceneController {
         /**
          * TODO: Verify proper data entry --> email must be in correct format
          * Verify email doesn't already exist in system
-         *
-         * Send new user's data to DB Notify user of success (done) Close or
-         * transition back to login scene --> if unable to find a solution, just
-         * have them close it (see below)
-         *
+         * 
+         * Send new user's data to DB
+         * 
+         * Close or transition back to login scene --> if unable to find a solution, 
+         * just have them close it (see below)
+         * 
          * PROBLEM: Old login scene will not have new user's information unless
          * queried again POSSIBLE SOLUTION: Close old window when transitioning
          * to new scene
@@ -120,14 +112,14 @@ public class NewUserSceneController {
         String email_input = emailField.getText();
         String password_input = passwordField.getText();
         // Check if email is already in system
-        if (checkEmail(email_input)) {
+        if (!checkEmail(email_input)) {
             // Confirm passwords match
             if (checkPassword()) {
                 // Add user to DB
                 Users user = new Users();
-                //user.setId(maxID + 1L); // would not explicitly settign this cause index to trigger?
                 user.setEmail(email_input);
                 user.setPassword(password_input);
+                
 
                 manager.getTransaction().begin();
                 manager.persist(user);
@@ -153,7 +145,6 @@ public class NewUserSceneController {
                  */
             }
         } else {
-
             /**
              * TODO: Make a new label in scene builder when this runs, display
              * an error message to user stating email already exists in system.
@@ -176,10 +167,9 @@ public class NewUserSceneController {
         try {
             secondRoot = loader.load();
         } catch (IOException ex) {
-            Logger.getLogger(NewUserSceneController.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NewUserSceneController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         // Show Second FXML in new a window            
         Stage stage = new Stage();
         stage.setScene(new Scene(secondRoot));
@@ -190,6 +180,7 @@ public class NewUserSceneController {
     public void loadData() {
         Query q_all = manager.createNamedQuery("Users.findAll");
         data = q_all.getResultList();
+        System.out.println("data: " + data);
     }
 
     /**
@@ -202,7 +193,7 @@ public class NewUserSceneController {
         assert confirmPasswordField != null : "fx:id=\"confirmPasswordField\" was not injected: check your FXML file 'NewUserScene.fxml'.";
         assert emailField != null : "fx:id=\"emailField\" was not injected: check your FXML file 'NewUserScene.fxml'.";
         assert loginSegueButton != null : "fx:id=\"loginSegueButton\" was not injected: check your FXML file 'NewUserScene.fxml'.";
-
+        
         //load data from database
         manager = (EntityManager) Persistence.createEntityManagerFactory("IST-311-messenger-app-JavaFXPU").createEntityManager();
         //load data
