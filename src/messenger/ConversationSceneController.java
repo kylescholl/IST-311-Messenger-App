@@ -137,10 +137,10 @@ public class ConversationSceneController {
         System.out.println("messages: " + messages);
         
         for (Map<String,String> message : messages) {
-            System.out.println("\nid: " + message.get("id"));
-            System.out.println("convo_id: " + convo_id);
+            System.out.println("\nid: [" + message.get("id") +"]");
+            System.out.println("convo_id: [" + convo_id + "]");
             
-            if (message.get("id") == convo_id.toString()) {
+            if (message.get("id").equals(convo_id.toString())) {
                 System.out.println("L_?");
                 String toDisplay = message.get("body");
                 conversationList.getItems().add(toDisplay);

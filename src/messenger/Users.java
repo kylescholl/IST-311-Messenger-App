@@ -20,14 +20,12 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Users.findAll", query = "SELECT s FROM Users s"),
     @NamedQuery(name = "Users.findById", query = "SELECT s FROM Users s WHERE s.user_id = :id"),
-    @NamedQuery(name = "Users.findByUsername", query = "SELECT s FROM Users s WHERE s.username = :username"),
     @NamedQuery(name = "Users.findByEmail", query = "SELECT s FROM Users s WHERE s.email = :email"),
     @NamedQuery(name = "Users.findByPassword", query = "SELECT s FROM Users s WHERE s.password = :password"),
     @NamedQuery(name = "Users.getMaxID", query = "SELECT MAX(s.user_id) AS LargestID FROM Users s")
 })
 public class Users implements Serializable {
     
-    // not really sure what these are for --> they were auto-generated
     @OneToMany(mappedBy = "firstUserId")
     private List<Conversation> firstUserIdConversationList;
     @OneToMany(mappedBy = "secondUserId")
@@ -36,9 +34,7 @@ public class Users implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "user_id") // This needs to be col name in table
-    private Long user_id;    // This needs to be the same as SQL statement above
-    @Column(name = "username")
-    private String username;    
+    private Long user_id;    // This needs to be the same as SQL statement above   
     @Column(name = "email")
     private String email;
     @Column(name = "password")
@@ -59,14 +55,6 @@ public class Users implements Serializable {
     
     public void setId(Long user_id) {
         this.user_id = user_id;
-    }
-    
-    public String getUsername() {
-        return username;
-    }
-    
-    public void setUsername(String username) {
-        this.username = username;
     }
     
     public String getEmail() {
